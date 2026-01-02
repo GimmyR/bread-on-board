@@ -26,7 +26,7 @@ public class AccountRestController {
 		
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		String token = accountService.generateJWT(username);
-		return ResponseEntity.status(200).body(token);
+		return ResponseEntity.status(HttpStatus.OK).body(token);
 		
 	}
 	
