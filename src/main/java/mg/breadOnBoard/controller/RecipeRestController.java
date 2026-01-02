@@ -48,11 +48,11 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/create")
-	public ResponseEntity<String> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
+	public ResponseEntity<Recipe> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.create(account, form);
-		return ResponseEntity.status(HttpStatus.CREATED).body(recipe.getId());
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
 		
 	}
 	
@@ -66,7 +66,8 @@ public class RecipeRestController {
 			
 			Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
 			recipe = imageService.upload(recipe, image);
-			recipeService.save(recipe);
+			recipe = recipeService.save(recipe);
+			response = ResponseEntity.status(HttpStatus.CREATED).body(recipe.getImage());
 			
 		} catch (IOException e) {
 
@@ -77,11 +78,11 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit/{id}")
-	public ResponseEntity<String> edit(@RequestHeader("Authorization") String authorization, @PathVariable String id, @Valid @RequestBody RecipeForm form) {
+	public ResponseEntity<Recipe> edit(@RequestHeader("Authorization") String authorization, @PathVariable String id, @Valid @RequestBody RecipeForm form) {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.update(account, id, form);
-		return ResponseEntity.status(HttpStatus.OK).body(recipe.getId());
+		return ResponseEntity.status(HttpStatus.OK).body(recipe);
 		
 	}
 	

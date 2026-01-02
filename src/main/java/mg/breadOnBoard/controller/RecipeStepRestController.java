@@ -35,12 +35,12 @@ public class RecipeStepRestController {
 	}
 	
 	@PostMapping("/api/recipe-steps/save")
-	public ResponseEntity<String> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) {
+	public ResponseEntity<Recipe> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) {
 			
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.findByIdAndAccountId(form.recipeId(), account.getId());
 		recipeStepService.saveAll(recipe.getId(), form.steps());
-		return ResponseEntity.status(HttpStatus.OK).body(recipe.getId());
+		return ResponseEntity.status(HttpStatus.OK).body(recipe);
 		
 	}
 
