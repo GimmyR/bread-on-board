@@ -2,24 +2,22 @@ package mg.breadOnBoard.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
+import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.repository.RecipeRepository;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class RecipeService {
 	
-	@Autowired
 	private RecipeRepository recipeRepository;
-	
-	@Autowired
 	private SequenceService sequenceService;
 	
 	public Iterable<Recipe> findAll() {

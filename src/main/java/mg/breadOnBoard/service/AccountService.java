@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,21 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
+import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.repository.AccountRepository;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class AccountService {
 	
-	@Autowired
 	private AccountRepository accountRepository;
-	
-	@Autowired
 	private JwtEncoder jwtEncoder;
-	
-	@Autowired
 	private JwtDecoder jwtDecoder;
 	
 	public List<Account> findAll() {

@@ -1,6 +1,5 @@
 package mg.breadOnBoard.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.NoResultException;
+import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.StepsForm;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
@@ -21,15 +21,11 @@ import mg.breadOnBoard.service.RecipeService;
 import mg.breadOnBoard.service.RecipeStepService;
 
 @RestController
+@AllArgsConstructor
 public class RecipeStepRestController {
 	
-	@Autowired
 	private RecipeStepService recipeStepService;
-	
-	@Autowired
 	private AccountService accountService;
-	
-	@Autowired
 	private RecipeService recipeService;
 	
 	@GetMapping("/api/recipe-step/get-all/{recipeId}")

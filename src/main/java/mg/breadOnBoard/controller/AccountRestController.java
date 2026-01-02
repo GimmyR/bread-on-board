@@ -1,6 +1,5 @@
 package mg.breadOnBoard.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,17 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.service.AccountService;
 
 @RestController
+@AllArgsConstructor
 public class AccountRestController {
 	
-	@Autowired
 	private AuthenticationManager authenticationManager;
-	
-	@Autowired
 	private AccountService accountService;
 	
 	@PostMapping("/api/account/log-in")

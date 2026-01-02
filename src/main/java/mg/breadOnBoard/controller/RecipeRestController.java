@@ -2,7 +2,6 @@ package mg.breadOnBoard.controller;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.NoResultException;
+import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.exception.FileIsEmptyException;
 import mg.breadOnBoard.model.Account;
@@ -24,18 +24,12 @@ import mg.breadOnBoard.service.RecipeService;
 import mg.breadOnBoard.service.RecipeStepService;
 
 @RestController
+@AllArgsConstructor
 public class RecipeRestController {
 	
-	@Autowired
 	private RecipeService recipeService;
-	
-	@Autowired
 	private RecipeStepService recipeStepService;
-	
-	@Autowired
 	private ImageService imageService;
-	
-	@Autowired
 	private AccountService accountService;
 	
 	@GetMapping("/api/recipe/get-all/")
