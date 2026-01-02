@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,10 +30,10 @@ public class AccountRestController {
 		
 	}
 	
-	@GetMapping("/api/account/username/{id}")
-	public ResponseEntity<String> getUsername(@PathVariable String id) {
+	@GetMapping("/api/account/username")
+	public ResponseEntity<String> getUsername(@RequestHeader("Authorization") String authorization) {
 		
-		Account account = accountService.findById(id);
+		Account account = accountService.getAccountByJWT(authorization);
 		return ResponseEntity.status(HttpStatus.OK).body(account.getUsername());
 		
 	}

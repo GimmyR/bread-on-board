@@ -48,7 +48,8 @@ public class SecurityConfig {
         							"/api/recipe/edit/**", 
         							"/api/recipe/delete/**", 
         							"/api/recipe/author/**", 
-        							"/api/recipe-step/save-all")
+        							"/api/recipe-step/save-all",
+        							"/api/account/username")
         						.authenticated())
 					.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
 					.userDetailsService(userDetailsService)
