@@ -91,6 +91,7 @@ public class SecurityConfig {
 		corsConfiguration.addAllowedOrigin("*");
 		corsConfiguration.addAllowedMethod("*");
 		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addExposedHeader("X-Message");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfiguration);
 		
