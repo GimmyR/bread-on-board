@@ -96,13 +96,10 @@ public class AccountService {
 		
 	}
 	
-	public Account getAccountByJWT(String authorization) throws NotFoundException {
+	public Account getAccountByJWT(String authorization) {
 		
 		String username = getUsernameByJWT(authorization);
 		Account account = accountRepository.findOneByUsername(username);
-		
-		if(account == null)
-			throw new NotFoundException("Account not found");
 		
 		return account;
 		
