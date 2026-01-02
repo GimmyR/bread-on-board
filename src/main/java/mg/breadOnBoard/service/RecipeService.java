@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.RecipeForm;
 import mg.breadOnBoard.exception.NotFoundException;
+import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.repository.RecipeRepository;
 
@@ -19,7 +21,10 @@ public class RecipeService {
 	private RecipeRepository recipeRepository;
 	private SequenceService sequenceService;
 	
-	public Iterable<Recipe> findAll() {
+	public Iterable<Recipe> findAll(String search) {
+		
+		if(search != null)
+			return this.findAllByTitleOrIngredients(search);
 		
 		return recipeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 		
@@ -61,14 +66,25 @@ public class RecipeService {
 		
 	}
 	
+	public Recipe create(Account account, RecipeForm form) {
+		
+		Recipe recipe = new Recipe(sequenceService.generateRecipeID(), account.getId(), form.title(), null, form.ingredients());
+		return recipeRepository.save(recipe);
+		
+	}
+	
+	public Recipe update(Account account, String recipeId, RecipeForm form) {
+		
+		Recipe recipe = this.findByIdAndAccountId(recipeId, account.getId());
+		recipe.editTitle(form.title());
+		recipe.editIngredients(form.ingredients());
+		return recipeRepository.save(recipe);
+		
+	}
+	
 	public Recipe save(Recipe recipe) {
 		
-		if(recipe.getId() == null) {
-			
-			String id = sequenceService.generateRecipeID();
-			recipe.editId(id);
-			
-		} return recipeRepository.save(recipe);
+		return recipeRepository.save(recipe);
 		
 	}
 	

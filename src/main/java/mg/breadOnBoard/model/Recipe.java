@@ -1,11 +1,14 @@
 package mg.breadOnBoard.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mg.breadOnBoard.exception.FileIsEmptyException;
 
 @Entity
 @Getter
@@ -33,12 +36,6 @@ public class Recipe {
 	
 	// METHODS :
 	
-	public void editId(String id) {
-		
-		this.id = id;
-		
-	}
-	
 	public void editTitle(String title) {
 		
 		this.title = title;
@@ -51,9 +48,12 @@ public class Recipe {
 		
 	}
 	
-	public void editImage(String image) {
+	public void editImage(MultipartFile image) {
 		
-		this.image = image;
+		if(image.isEmpty())
+			throw new FileIsEmptyException();
+		
+		this.image = image.getOriginalFilename();
 		
 	}
 

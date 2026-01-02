@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.dto.RecipeForm;
-import mg.breadOnBoard.exception.FileIsEmptyException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.AccountService;
@@ -37,10 +35,7 @@ public class RecipeRestController {
 	@GetMapping("/api/recipes")
 	public Iterable<Recipe> getAll(@RequestParam(name = "s", required = false) String search) {
 		
-		if(search != null)
-			return recipeService.findAllByTitleOrIngredients(search);
-		
-		return recipeService.findAll();
+		return recipeService.findAll(search);
 		
 	}
 	
@@ -56,8 +51,7 @@ public class RecipeRestController {
 	public ResponseEntity<String> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
 		
 		Account account = accountService.getAccountByJWT(authorization);
-		Recipe recipe = new Recipe(null, account.getId(), form.title(), null, form.ingredients());
-		recipe = recipeService.save(recipe);
+		Recipe recipe = recipeService.create(account, form);
 		return ResponseEntity.status(HttpStatus.CREATED).body(recipe.getId());
 		
 	}
@@ -66,16 +60,13 @@ public class RecipeRestController {
 	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable String id, @RequestParam MultipartFile image) {
 		
 		ResponseEntity<String> response = null;
+		Account account = accountService.getAccountByJWT(authorization);
 		
 		try {
 			
-			Recipe recipe = recipeService.findOneById(id);
-			String oldImage = recipe.getImage();
-			recipe.editImage(image.getOriginalFilename());
-			imageService.upload(image);
-			
-			if(oldImage != null)
-				imageService.delete(oldImage);
+			Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
+			recipe = imageService.upload(recipe, image);
+			recipeService.save(recipe);
 			
 		} catch (IOException e) {
 
@@ -88,18 +79,9 @@ public class RecipeRestController {
 	@PostMapping("/api/recipe/edit/{id}")
 	public ResponseEntity<String> edit(@RequestHeader("Authorization") String authorization, @PathVariable String id, @Valid @RequestBody RecipeForm form) {
 		
-		Recipe recipe = this.tryToEdit(authorization, id, form.title(), form.ingredients());
-		return ResponseEntity.status(HttpStatus.OK).body(recipe.getId());
-		
-	}
-	
-	private Recipe tryToEdit(String authorization, String id, String title, String ingredients) throws NotFoundException, FileIsEmptyException {
-		
 		Account account = accountService.getAccountByJWT(authorization);
-		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
-		recipe.editTitle(title);
-		recipe.editIngredients(ingredients);
-		return recipeService.save(recipe);
+		Recipe recipe = recipeService.update(account, id, form);
+		return ResponseEntity.status(HttpStatus.OK).body(recipe.getId());
 		
 	}
 	

@@ -50,6 +50,8 @@ public class RecipeStepService {
 	
 	public void saveAll(String recipeId, Iterable<RecipeStepForm> steps) {
 		
+		this.deleteAllByRecipeId(recipeId);
+		
 		int order = 1;
 		
 		for(RecipeStepForm step : steps) {
