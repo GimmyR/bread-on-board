@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
@@ -56,7 +55,7 @@ public class RecipeService {
 		Recipe recipe = recipeRepository.findOneByIdAndAccountId(id, accountId);
 		
 		if(recipe == null)
-			throw new NoResultException();
+			throw new NotFoundException("Recipe not found");
 		
 		return recipe;
 		
