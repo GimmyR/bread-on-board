@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.StepsForm;
 import mg.breadOnBoard.model.Account;
@@ -34,7 +35,7 @@ public class RecipeStepRestController {
 	}
 	
 	@PostMapping("/api/recipe-step/save-all")
-	public ResponseEntity<String> saveAll(@RequestHeader("Authorization") String authorization, @RequestBody StepsForm body) {
+	public ResponseEntity<String> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm body) {
 			
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.findByIdAndAccountId(body.recipeId(), account.getId());

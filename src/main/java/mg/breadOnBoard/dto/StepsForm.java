@@ -1,8 +1,11 @@
 package mg.breadOnBoard.dto;
 
-import mg.breadOnBoard.model.RecipeStep;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 public record StepsForm(
-		String recipeId, 
-		Iterable<RecipeStep> steps
+		@NotBlank(message = "Recipe ID is missing")
+		String recipeId,
+		
+		Iterable<@Valid RecipeStepForm> steps
 ) {}

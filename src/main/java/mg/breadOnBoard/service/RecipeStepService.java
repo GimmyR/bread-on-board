@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.RecipeStepForm;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.RecipeStep;
 import mg.breadOnBoard.repository.RecipeStepRepository;
@@ -47,15 +48,14 @@ public class RecipeStepService {
 		
 	}
 	
-	public void saveAll(String recipeId, Iterable<RecipeStep> steps) {
+	public void saveAll(String recipeId, Iterable<RecipeStepForm> steps) {
 		
 		int order = 1;
 		
-		for(RecipeStep step : steps) {
+		for(RecipeStepForm step : steps) {
 			
-			step.editOrder(order);
-			step.editRecipeId(recipeId);
-			this.save(step);
+			RecipeStep recipeStep = new RecipeStep(null, recipeId, order, step.text());
+			this.save(recipeStep);
 			order++;
 			
 		}
