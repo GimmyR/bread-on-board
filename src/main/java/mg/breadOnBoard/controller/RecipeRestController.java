@@ -34,21 +34,17 @@ public class RecipeRestController {
 	private ImageService imageService;
 	private AccountService accountService;
 	
-	@GetMapping("/api/recipe/get-all/")
-	public Iterable<Recipe> getAll() {
+	@GetMapping("/api/recipes")
+	public Iterable<Recipe> getAll(@RequestParam(name = "s", required = false) String search) {
+		
+		if(search != null)
+			return recipeService.findAllByTitleOrIngredients(search);
 		
 		return recipeService.findAll();
 		
 	}
 	
-	@PostMapping("/api/recipe/search/")
-	public Iterable<Recipe> search(@RequestParam String search) { // A FUSIONNER AVEC "getAll"
-		
-		return recipeService.findAllByTitleOrIngredients(search);
-		
-	}
-	
-	@GetMapping("/api/recipe/get-one/{id}")
+	@GetMapping("/api/recipes/{id}")
 	public ResponseEntity<Recipe> getOne(@PathVariable String id) {
 		
 		Recipe recipe = recipeService.findOneById(id);

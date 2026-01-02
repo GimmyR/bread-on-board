@@ -23,7 +23,7 @@ public class AccountRestController {
 	private AuthenticationManager authenticationManager;
 	private AccountService accountService;
 	
-	@PostMapping("/api/account/log-in")
+	@PostMapping("/api/sign-in")
 	public ResponseEntity<String> logIn(@Valid @RequestBody AccountForm account) {
 		
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(account.username(), account.password()));
@@ -32,7 +32,7 @@ public class AccountRestController {
 		
 	}
 	
-	@GetMapping("/api/account/username")
+	@GetMapping("/api/username")
 	public ResponseEntity<String> getUsername(@RequestHeader("Authorization") String authorization) {
 		
 		Account account = accountService.getAccountByJWT(authorization);

@@ -27,14 +27,14 @@ public class RecipeStepRestController {
 	private AccountService accountService;
 	private RecipeService recipeService;
 	
-	@GetMapping("/api/recipe-step/get-all/{recipeId}")
+	@GetMapping("/api/recipe-steps/{recipeId}")
 	public Iterable<RecipeStep> getAllByRecipeId(@PathVariable String recipeId) {
 		
 		return recipeStepService.findAllByRecipeId(recipeId);
 		
 	}
 	
-	@PostMapping("/api/recipe-step/save-all")
+	@PostMapping("/api/recipe-steps/save")
 	public ResponseEntity<String> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm body) {
 			
 		Account account = accountService.getAccountByJWT(authorization);
