@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import mg.breadOnBoard.exception.AccountNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.service.AccountService;
 
@@ -53,7 +53,7 @@ public class AccountRestController {
 			Account account = accountService.findById(id);
 			response = new ResponseEntity<String>(account.getUsername(), HttpStatus.OK);
 			
-		} catch (AccountNotFoundException e) {
+		} catch (NotFoundException e) {
 
 			response = new ResponseEntity<String>("Compte introuvable !", HttpStatus.NOT_FOUND);
 			

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
-import mg.breadOnBoard.exception.AccountNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.repository.AccountRepository;
 
@@ -39,12 +39,12 @@ public class AccountService {
 		
 	}
 	
-	public Account findById(String id) throws AccountNotFoundException {
+	public Account findById(String id) throws NotFoundException {
 		
 		Optional<Account> opt = accountRepository.findById(id);
 		
 		if(opt.isEmpty())
-			throw new AccountNotFoundException();
+			throw new NotFoundException("Account not found");
 		
 		else return opt.get();
 		
@@ -100,13 +100,13 @@ public class AccountService {
 		
 	}
 	
-	public Account getAccountByJWT(String authorization) throws AccountNotFoundException {
+	public Account getAccountByJWT(String authorization) throws NotFoundException {
 		
 		String username = getUsernameByJWT(authorization);
 		Account account = accountRepository.findOneByUsername(username);
 		
 		if(account == null)
-			throw new AccountNotFoundException();
+			throw new NotFoundException("Account not found");
 		
 		return account;
 		

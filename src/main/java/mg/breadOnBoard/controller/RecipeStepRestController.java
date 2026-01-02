@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.NoResultException;
 import mg.breadOnBoard.dto.StepsForm;
-import mg.breadOnBoard.exception.AccountNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
@@ -52,7 +52,7 @@ public class RecipeStepRestController {
 			recipeStepService.saveAll(recipe.getId(), body.steps());
 			response = new ResponseEntity<String>(body.recipeId(), HttpStatus.OK);
 		
-		} catch (AccountNotFoundException e) {
+		} catch (NotFoundException e) {
 			
 			response = new ResponseEntity<String>("Compte introuvable !", HttpStatus.NOT_FOUND);
 			

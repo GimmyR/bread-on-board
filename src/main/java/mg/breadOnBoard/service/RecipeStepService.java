@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mg.breadOnBoard.exception.RecipeStepNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.RecipeStep;
 import mg.breadOnBoard.repository.RecipeStepRepository;
 
@@ -27,14 +27,14 @@ public class RecipeStepService {
 		
 	}
 	
-	public RecipeStep findOneById(String id) throws RecipeStepNotFoundException {
+	public RecipeStep findOneById(String id) throws NotFoundException {
 		
 		Optional<RecipeStep> opt = recipeStepRepository.findById(id);
 		
 		if(opt.isPresent())
 			return opt.get();
 		
-		else throw new RecipeStepNotFoundException();
+		else throw new NotFoundException("Recipe steps not fund");
 		
 	}
 	

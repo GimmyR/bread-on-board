@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
-import mg.breadOnBoard.exception.RecipeNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.repository.RecipeRepository;
 
@@ -42,14 +42,14 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findOneById(String id) throws RecipeNotFoundException {
+	public Recipe findOneById(String id) throws NotFoundException {
 		
 		Optional<Recipe> opt = recipeRepository.findById(id);
 		
 		if(opt.isPresent())
 			return opt.get();
 		
-		else throw new RecipeNotFoundException();
+		else throw new NotFoundException("Recipe not found");
 		
 	}
 	

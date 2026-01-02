@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.NoResultException;
-import mg.breadOnBoard.exception.AccountNotFoundException;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.exception.FileIsEmptyException;
-import mg.breadOnBoard.exception.RecipeNotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.AccountService;
@@ -64,7 +63,7 @@ public class RecipeRestController {
 			recipe = recipeService.findOneById(id);
 			response = new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
 			
-		} catch (RecipeNotFoundException e) {
+		} catch (NotFoundException e) {
 
 			response = new ResponseEntity<Recipe>(recipe, HttpStatus.NOT_FOUND);
 			
@@ -95,7 +94,7 @@ public class RecipeRestController {
 			
 			response = new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 			
-		} catch (AccountNotFoundException e) {
+		} catch (NotFoundException e) {
 
 			response = new ResponseEntity<String>("Compte introuvable !", HttpStatus.NOT_FOUND);
 			
@@ -118,7 +117,7 @@ public class RecipeRestController {
 
 			response = new ResponseEntity<String>(recipe.getId(), HttpStatus.INTERNAL_SERVER_ERROR);
 			
-		} catch (AccountNotFoundException e) {
+		} catch (NotFoundException e) {
 
 			response = new ResponseEntity<String>("Session introuvable !", HttpStatus.NOT_FOUND);
 			
@@ -130,7 +129,7 @@ public class RecipeRestController {
 		
 	}
 	
-	private Recipe tryToEdit(String authorization, Recipe recipe, String id, String title, MultipartFile image, String ingredients) throws AccountNotFoundException, FileIsEmptyException, IOException {
+	private Recipe tryToEdit(String authorization, Recipe recipe, String id, String title, MultipartFile image, String ingredients) throws NotFoundException, FileIsEmptyException, IOException {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		recipe = recipeService.findByIdAndAccountId(id, account.getId());
@@ -162,7 +161,7 @@ public class RecipeRestController {
 			imageService.delete(recipe.getImage());
 			response = new ResponseEntity<String>("La recette a bien été supprimée !", HttpStatus.OK);
 		
-		} catch (AccountNotFoundException e) {
+		} catch (NotFoundException e) {
 
 			response = new ResponseEntity<String>("Vous n'êtes pas connecté !", HttpStatus.NOT_FOUND);
 			
@@ -189,7 +188,7 @@ public class RecipeRestController {
 			recipeService.findByIdAndAccountId(id, account.getId());
 			response = new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			
-		} catch(AccountNotFoundException | NoResultException e) {
+		} catch(NotFoundException | NoResultException e) {
 			
 			response = new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 			
