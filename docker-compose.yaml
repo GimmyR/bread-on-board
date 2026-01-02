@@ -7,7 +7,7 @@ services:
     environment:
       ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
     volumes:
-      - oracle-data:/opt/oracle/oradata   # data persistence
+      - oracle-bob:/opt/oracle/oradata   # data persistence
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s SYSTEM/pwd123@localhost/XEPDB1 | grep -q '1'"]
@@ -17,4 +17,4 @@ services:
       start_period: 60s
 
 volumes:
-  oracle-data:
+  oracle-bob:
