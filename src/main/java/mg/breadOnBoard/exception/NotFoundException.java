@@ -1,7 +1,7 @@
 package mg.breadOnBoard.exception;
 
 @SuppressWarnings("serial")
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 	
 	public NotFoundException(String message) {
 		
