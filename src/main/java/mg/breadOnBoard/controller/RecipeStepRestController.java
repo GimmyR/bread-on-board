@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.StepsForm;
-import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
@@ -37,26 +35,12 @@ public class RecipeStepRestController {
 	
 	@PostMapping("/api/recipe-step/save-all")
 	public ResponseEntity<String> saveAll(@RequestHeader("Authorization") String authorization, @RequestBody StepsForm body) {
-		
-		ResponseEntity<String> response = null;
-		
-		try {
 			
-			Account account = accountService.getAccountByJWT(authorization);
-			Recipe recipe = recipeService.findByIdAndAccountId(body.recipeId(), account.getId());
-			recipeStepService.deleteAllByRecipeId(recipe.getId());
-			recipeStepService.saveAll(recipe.getId(), body.steps());
-			response = new ResponseEntity<String>(body.recipeId(), HttpStatus.OK);
-		
-		} catch (NotFoundException e) {
-			
-			response = new ResponseEntity<String>("Compte introuvable !", HttpStatus.NOT_FOUND);
-			
-		} catch (NoResultException e) {
-			
-			response = new ResponseEntity<String>("Recette introuvable !", HttpStatus.NOT_FOUND);
-			
-		} return response;
+		Account account = accountService.getAccountByJWT(authorization);
+		Recipe recipe = recipeService.findByIdAndAccountId(body.recipeId(), account.getId());
+		recipeStepService.deleteAllByRecipeId(recipe.getId());
+		recipeStepService.saveAll(recipe.getId(), body.steps());
+		return ResponseEntity.status(HttpStatus.OK).body(body.recipeId());
 		
 	}
 

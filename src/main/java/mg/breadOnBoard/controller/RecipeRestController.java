@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.exception.FileIsEmptyException;
@@ -49,19 +48,8 @@ public class RecipeRestController {
 	@GetMapping("/api/recipe/get-one/{id}")
 	public ResponseEntity<Recipe> getOne(@PathVariable String id) {
 		
-		ResponseEntity<Recipe> response = null;
-		Recipe recipe = null;
-		
-		try {
-			
-			recipe = recipeService.findOneById(id);
-			response = new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
-			
-		} catch (NotFoundException e) {
-
-			response = new ResponseEntity<Recipe>(recipe, HttpStatus.NOT_FOUND);
-			
-		} return response;
+		Recipe recipe = recipeService.findOneById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(recipe);
 		
 	}
 	
@@ -77,20 +65,11 @@ public class RecipeRestController {
 			imageService.upload(image);
 			recipe = new Recipe(null, account.getId(), title, image.getOriginalFilename(), ingredients);
 			recipe = recipeService.save(recipe);
-			
-			response = new ResponseEntity<String>(recipe.getId(), HttpStatus.OK);
-			
-		} catch (FileIsEmptyException e) {
-
-			response = new ResponseEntity<String>("Une image est requise pour créer une recette !", HttpStatus.NOT_FOUND);
+			response = ResponseEntity.status(HttpStatus.CREATED).body(recipe.getId());
 			
 		} catch(IOException e) {
 			
-			response = new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-			
-		} catch (NotFoundException e) {
-
-			response = new ResponseEntity<String>("Compte introuvable !", HttpStatus.NOT_FOUND);
+			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
 		} return response;
 		
@@ -105,19 +84,11 @@ public class RecipeRestController {
 		try {
 			
 			recipe = this.tryToEdit(authorization, recipe, id, title, image, ingredients);
-			return new ResponseEntity<String>(recipe.getId(), HttpStatus.OK);
+			response = ResponseEntity.status(HttpStatus.OK).body(recipe.getId());
 			
-		} catch (FileIsEmptyException | IOException e) {
+		} catch (IOException e) {
 
-			response = new ResponseEntity<String>(recipe.getId(), HttpStatus.INTERNAL_SERVER_ERROR);
-			
-		} catch (NotFoundException e) {
-
-			response = new ResponseEntity<String>("Session introuvable !", HttpStatus.NOT_FOUND);
-			
-		} catch (NoResultException e) {
-
-			response = new ResponseEntity<String>("Recette introuvable !", HttpStatus.NOT_FOUND);
+			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
 		} return response;
 		
@@ -130,7 +101,7 @@ public class RecipeRestController {
 		recipe.editTitle(title);
 		recipe.editIngredients(ingredients);
 		
-		if(!image.getOriginalFilename().equals(recipe.getImage())) {
+		if((!image.isEmpty()) && (!image.getOriginalFilename().equals(recipe.getImage()))) {
 
 			String oldImage = recipe.getImage();
 			recipe.editImage(image.getOriginalFilename());
@@ -141,7 +112,7 @@ public class RecipeRestController {
 		
 	}
 	
-	@GetMapping("/api/recipe/delete/{id}")
+	@PostMapping("/api/recipe/delete/{id}")
 	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
 		
 		ResponseEntity<String> response = null;
@@ -153,19 +124,11 @@ public class RecipeRestController {
 			recipeStepService.deleteAllByRecipeId(id);
 			recipeService.delete(recipe);
 			imageService.delete(recipe.getImage());
-			response = new ResponseEntity<String>("La recette a bien été supprimée !", HttpStatus.OK);
+			response = ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
-		} catch (NotFoundException e) {
-
-			response = new ResponseEntity<String>("Vous n'êtes pas connecté !", HttpStatus.NOT_FOUND);
-			
-		} catch(NoResultException e) {
-			
-			response = new ResponseEntity<String>("Votre recette est introuvable !", HttpStatus.NOT_FOUND);
-			
 		} catch (IOException e) {
 			
-			response = new ResponseEntity<String>("L'image de la recette est introuvable !", HttpStatus.NOT_FOUND);
+			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
 		} return response;
 		
@@ -174,19 +137,9 @@ public class RecipeRestController {
 	@GetMapping("/api/recipe/author/{id}")
 	public ResponseEntity<Boolean> isAuthor(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
 		
-		ResponseEntity<Boolean> response = null;
-		
-		try {
-		
-			Account account = accountService.getAccountByJWT(authorization);
-			recipeService.findByIdAndAccountId(id, account.getId());
-			response = new ResponseEntity<Boolean>(true, HttpStatus.OK);
-			
-		} catch(NotFoundException | NoResultException e) {
-			
-			response = new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
-			
-		} return response;
+		Account account = accountService.getAccountByJWT(authorization);
+		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
+		return ResponseEntity.status(HttpStatus.OK).body((recipe != null) && (recipe.getId().equals(id)));
 		
 	}
 
