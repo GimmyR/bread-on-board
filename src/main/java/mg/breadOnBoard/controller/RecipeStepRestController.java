@@ -28,9 +28,9 @@ public class RecipeStepRestController {
 	private RecipeService recipeService;
 	
 	@GetMapping("/api/recipe-steps/{recipeId}")
-	public Iterable<RecipeStep> getAllByRecipeId(@PathVariable String recipeId) {
+	public ResponseEntity<Iterable<RecipeStep>> getAllByRecipeId(@PathVariable String recipeId) {
 		
-		return recipeStepService.findAllByRecipeId(recipeId);
+		return ResponseEntity.status(HttpStatus.OK).body(recipeStepService.findAllByRecipeId(recipeId));
 		
 	}
 	

@@ -33,9 +33,9 @@ public class RecipeRestController {
 	private AccountService accountService;
 	
 	@GetMapping("/api/recipes")
-	public Iterable<Recipe> getAll(@RequestParam(name = "s", required = false) String search) {
+	public ResponseEntity<Iterable<Recipe>> getAll(@RequestParam(name = "s", required = false) String search) {
 		
-		return recipeService.findAll(search);
+		return ResponseEntity.status(HttpStatus.OK).body(recipeService.findAll(search));
 		
 	}
 	
