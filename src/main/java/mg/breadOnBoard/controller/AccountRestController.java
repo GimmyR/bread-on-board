@@ -6,11 +6,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.AccountForm;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.service.AccountService;
 
@@ -22,10 +24,10 @@ public class AccountRestController {
 	private AccountService accountService;
 	
 	@PostMapping("/api/account/log-in")
-	public ResponseEntity<String> logIn(@RequestParam String username, @RequestParam String password) {
+	public ResponseEntity<String> logIn(@Valid @RequestBody AccountForm account) {
 		
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		String token = accountService.generateJWT(username);
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(account.username(), account.password()));
+		String token = accountService.generateJWT(account.username());
 		return ResponseEntity.status(HttpStatus.OK).body(token);
 		
 	}
