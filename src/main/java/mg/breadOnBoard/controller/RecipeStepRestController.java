@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.NoResultException;
+import mg.breadOnBoard.dto.StepsForm;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
@@ -46,10 +47,10 @@ public class RecipeStepRestController {
 		try {
 			
 			Account account = accountService.getAccountByJWT(authorization);
-			Recipe recipe = recipeService.findByIdAndAccountId(body.getRecipeId(), account.getId());
+			Recipe recipe = recipeService.findByIdAndAccountId(body.recipeId(), account.getId());
 			recipeStepService.deleteAllByRecipeId(recipe.getId());
-			recipeStepService.saveAll(recipe.getId(), body.getSteps());
-			response = new ResponseEntity<String>(body.getRecipeId(), HttpStatus.OK);
+			recipeStepService.saveAll(recipe.getId(), body.steps());
+			response = new ResponseEntity<String>(body.recipeId(), HttpStatus.OK);
 		
 		} catch (AccountNotFoundException e) {
 			

@@ -1,0 +1,20 @@
+services:
+  db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
+    volumes:
+      - oracle-data:/opt/oracle/oradata   # data persistence
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s SYSTEM/pwd123@localhost/XEPDB1 | grep -q '1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+volumes:
+  oracle-data:

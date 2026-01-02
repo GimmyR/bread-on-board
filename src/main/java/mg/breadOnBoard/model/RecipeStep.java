@@ -4,9 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "recipe_step")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecipeStep {
 	
 	public static final String PREFIX = "S";
@@ -26,38 +32,26 @@ public class RecipeStep {
 	
 	private String text;
 	
-	// GETTERS AND SETTERS :
+	// METHODS :
 	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
+	public void editId(String id) {
+		
 		this.id = id;
+		
 	}
-	
-	public String getRecipeId() {
-		return recipeId;
-	}
-	
-	public void setRecipeId(String recipeId) {
+
+	public void editRecipeId(String recipeId) {
+		
 		this.recipeId = recipeId;
+		
 	}
-	
-	public int getOrder() {
-		return order;
-	}
-	
-	public void setOrder(int order) {
+
+	public void editOrder(int order) {
+		
 		this.order = order;
+		
 	}
 	
-	public String getText() {
-		return text;
-	}
 	
-	public void setText(String text) {
-		this.text = text;
-	}
 
 }

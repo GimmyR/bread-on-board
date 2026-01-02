@@ -76,16 +76,13 @@ public class RecipeRestController {
 	public ResponseEntity<String> create(@RequestHeader("Authorization") String authorization, @RequestParam String title, @RequestParam MultipartFile image, @RequestParam String ingredients) {
 		
 		ResponseEntity<String> response = null;
-		Recipe recipe = new Recipe();
+		Recipe recipe = null;
 		
 		try {
 			
 			Account account = accountService.getAccountByJWT(authorization);
 			imageService.upload(image);
-			recipe.setAccountId(account.getId());
-			recipe.setTitle(title);
-			recipe.setImage(image.getOriginalFilename());
-			recipe.setIngredients(ingredients);
+			recipe = new Recipe(null, account.getId(), title, image.getOriginalFilename(), ingredients);
 			recipe = recipeService.save(recipe);
 			
 			response = new ResponseEntity<String>(recipe.getId(), HttpStatus.OK);
@@ -137,13 +134,13 @@ public class RecipeRestController {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		recipe = recipeService.findByIdAndAccountId(id, account.getId());
-		recipe.setTitle(title);
-		recipe.setIngredients(ingredients);
+		recipe.editTitle(title);
+		recipe.editIngredients(ingredients);
 		
 		if(!image.getOriginalFilename().equals(recipe.getImage())) {
 
 			String oldImage = recipe.getImage();
-			recipe.setImage(image.getOriginalFilename());
+			recipe.editImage(image.getOriginalFilename());
 			imageService.upload(image);
 			imageService.delete(oldImage);
 			

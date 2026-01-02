@@ -68,7 +68,7 @@ public class RecipeService {
 		if(recipe.getId() == null) {
 			
 			String id = sequenceService.generateRecipeID();
-			recipe.setId(id);
+			recipe.editId(id);
 			
 		} return recipeRepository.save(recipe);
 		

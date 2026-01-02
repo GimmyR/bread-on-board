@@ -3,10 +3,14 @@ package mg.breadOnBoard.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 	
 	public static final String PREFIX = "R";
@@ -27,46 +31,30 @@ public class Recipe {
 	
 	private String ingredients;
 	
-	// GETTERS AND SETTERS :
+	// METHODS :
 	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
+	public void editId(String id) {
+		
 		this.id = id;
+		
 	}
 	
-	public String getAccountId() {
-		return accountId;
-	}
-	
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
-	public void setTitle(String title) {
+	public void editTitle(String title) {
+		
 		this.title = title;
+		
 	}
 	
-	public String getImage() {
-		return image;
-	}
-	
-	public void setImage(String image) {
-		this.image = image;
-	}
-	
-	public String getIngredients() {
-		return ingredients;
-	}
-	
-	public void setIngredients(String ingredients) {
+	public void editIngredients(String ingredients) {
+		
 		this.ingredients = ingredients;
+		
+	}
+	
+	public void editImage(String image) {
+		
+		this.image = image;
+		
 	}
 
 }

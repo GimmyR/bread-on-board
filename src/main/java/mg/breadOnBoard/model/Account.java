@@ -6,10 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
 	
 	// ATTRIBUTES :
@@ -28,39 +32,5 @@ public class Account {
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
-	
-	// GETTERS AND SETTERS :
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
-	public String getMailAddress() {
-		return mailAddress;
-	}
-	
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 }

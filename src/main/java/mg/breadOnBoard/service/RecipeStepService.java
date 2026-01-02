@@ -42,7 +42,7 @@ public class RecipeStepService {
 		if(step.getId() == null) {
 			
 			String id = sequenceService.generateRecipeStepID();
-			step.setId(id);
+			step.editId(id);
 			
 		} return recipeStepRepository.save(step);
 		
@@ -54,8 +54,8 @@ public class RecipeStepService {
 		
 		for(RecipeStep step : steps) {
 			
-			step.setOrder(order);
-			step.setRecipeId(recipeId);
+			step.editOrder(order);
+			step.editRecipeId(recipeId);
 			this.save(step);
 			order++;
 			
