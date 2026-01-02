@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.NoResultException;
+import mg.breadOnBoard.exception.AccountNotFoundException;
+import mg.breadOnBoard.exception.FileIsEmptyException;
+import mg.breadOnBoard.exception.RecipeNotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
-import mg.breadOnBoard.service.AccountNotFoundException;
 import mg.breadOnBoard.service.AccountService;
-import mg.breadOnBoard.service.FileIsEmptyException;
 import mg.breadOnBoard.service.ImageService;
-import mg.breadOnBoard.service.RecipeNotFoundException;
 import mg.breadOnBoard.service.RecipeService;
 import mg.breadOnBoard.service.RecipeStepService;
 

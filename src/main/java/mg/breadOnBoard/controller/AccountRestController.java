@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import mg.breadOnBoard.exception.AccountNotFoundException;
 import mg.breadOnBoard.model.Account;
-import mg.breadOnBoard.service.AccountNotFoundException;
 import mg.breadOnBoard.service.AccountService;
 
 @RestController

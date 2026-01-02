@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
+import mg.breadOnBoard.exception.AccountNotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.repository.AccountRepository;
 
