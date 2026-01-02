@@ -26,7 +26,7 @@ public class RecipeStepService {
 		
 	}
 	
-	public RecipeStep findOneById(String id) throws NotFoundException {
+	public RecipeStep findOneById(String id) {
 		
 		Optional<RecipeStep> opt = recipeStepRepository.findById(id);
 		

@@ -35,7 +35,7 @@ public class AccountService {
 		
 	}
 	
-	public Account findById(String id) throws NotFoundException {
+	public Account findById(String id) {
 		
 		Optional<Account> opt = accountRepository.findById(id);
 		

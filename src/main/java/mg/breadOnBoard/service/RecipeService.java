@@ -44,7 +44,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findOneById(String id) throws NotFoundException {
+	public Recipe findOneById(String id) {
 		
 		Optional<Recipe> opt = recipeRepository.findById(id);
 		
