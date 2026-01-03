@@ -39,7 +39,7 @@ public class RecipeStepRestController {
 			
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.findByIdAndAccountId(form.recipeId(), account.getId());
-		recipeStepService.saveAll(recipe.getId(), form.steps());
+		recipeStepService.saveAll(recipe, form.steps());
 		return ResponseEntity.status(HttpStatus.OK).body(recipe);
 		
 	}

@@ -1,5 +1,7 @@
 package mg.breadOnBoard.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeForm;
+import mg.breadOnBoard.dto.RecipeResponse;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
@@ -68,7 +71,7 @@ public class RecipeService {
 	
 	public Recipe create(Account account, RecipeForm form) {
 		
-		Recipe recipe = new Recipe(sequenceService.generateRecipeID(), account.getId(), form.title(), null, form.ingredients());
+		Recipe recipe = new Recipe(sequenceService.generateRecipeID(), account, form.title(), null, form.ingredients(), null);
 		return recipeRepository.save(recipe);
 		
 	}
@@ -91,6 +94,25 @@ public class RecipeService {
 	public void delete(Recipe recipe) {
 		
 		recipeRepository.delete(recipe);
+		
+	}
+	
+	public Iterable<RecipeResponse> mapToResponse(Iterable<Recipe> recipes) {
+		
+		List<RecipeResponse> results = new ArrayList<RecipeResponse>();
+		
+		recipes.forEach(recipe -> {
+			
+			RecipeResponse res = new RecipeResponse(
+					
+					recipe.getId(), 
+					recipe.getTitle(), 
+					recipe.getIngredients(), 
+					recipe.getImage()
+					
+			); results.add(res);
+			
+		}); return results;
 		
 	}
 

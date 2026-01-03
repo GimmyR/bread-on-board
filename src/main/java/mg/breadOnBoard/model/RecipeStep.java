@@ -3,6 +3,8 @@ package mg.breadOnBoard.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +26,9 @@ public class RecipeStep {
 	@Id
 	private String id;
 	
-	@Column(name = "recipe_id")
-	private String recipeId;
+	@ManyToOne
+	@JoinColumn
+	private Recipe recipe;
 	
 	@Column(name = "step_order")
 	private int order;
@@ -40,9 +43,9 @@ public class RecipeStep {
 		
 	}
 
-	public void editRecipeId(String recipeId) {
+	public void editRecipeId(Recipe recipe) {
 		
-		this.recipeId = recipeId;
+		this.recipe = recipe;
 		
 	}
 

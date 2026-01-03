@@ -1,11 +1,12 @@
 package mg.breadOnBoard.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,10 @@ public class Account {
 	@Column(name = "mail_address")
 	private String mailAddress;
 	
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+	
+	@OneToMany
+	@JoinTable
+	private List<Recipe> recipes;
 
 }

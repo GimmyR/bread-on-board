@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeStepForm;
 import mg.breadOnBoard.exception.NotFoundException;
+import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
 import mg.breadOnBoard.repository.RecipeStepRepository;
 
@@ -48,15 +49,15 @@ public class RecipeStepService {
 		
 	}
 	
-	public void saveAll(String recipeId, Iterable<RecipeStepForm> steps) {
+	public void saveAll(Recipe recipe, Iterable<RecipeStepForm> steps) {
 		
-		this.deleteAllByRecipeId(recipeId);
+		this.deleteAllByRecipeId(recipe.getId());
 		
 		int order = 1;
 		
 		for(RecipeStepForm step : steps) {
 			
-			RecipeStep recipeStep = new RecipeStep(null, recipeId, order, step.text());
+			RecipeStep recipeStep = new RecipeStep(null, recipe, order, step.text());
 			this.save(recipeStep);
 			order++;
 			

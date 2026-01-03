@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeForm;
+import mg.breadOnBoard.dto.RecipeResponse;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.AccountService;
@@ -33,9 +34,10 @@ public class RecipeRestController {
 	private AccountService accountService;
 	
 	@GetMapping("/api/recipes")
-	public ResponseEntity<Iterable<Recipe>> getAll(@RequestParam(name = "s", required = false) String search) {
+	public ResponseEntity<Iterable<RecipeResponse>> getAll(@RequestParam(name = "s", required = false) String search) {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(recipeService.findAll(search));
+		Iterable<Recipe> recipes = recipeService.findAll(search);
+		return ResponseEntity.status(HttpStatus.OK).body(recipeService.mapToResponse(recipes));
 		
 	}
 	

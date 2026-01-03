@@ -1,10 +1,15 @@
 package mg.breadOnBoard.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,14 +30,19 @@ public class Recipe {
 	@Id
 	private String id;
 	
-	@Column(name = "account_id")
-	private String accountId;
+	@ManyToOne
+	@JoinColumn
+	private Account account;
 	
 	private String title;
 	
 	private String image;
 	
 	private String ingredients;
+	
+	@OneToMany
+	@JoinTable
+	private List<RecipeStep> recipeSteps;
 	
 	// METHODS :
 	
