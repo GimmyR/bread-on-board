@@ -1,4 +1,4 @@
-import "./call-to-action.css";
+import "./style.css";
 
 export default function CallToAction() {
     return (

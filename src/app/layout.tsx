@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./global.css";
-import Bootstrap from "@/components/Bootstrap";
-import Header from "@/components/header/header";
+import Bootstrap from "@/components/bootstrap";
+import Header from "@/components/header";
 
 export const metadata: Metadata = {
     title: "Bread on Board",

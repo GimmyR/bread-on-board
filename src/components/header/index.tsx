@@ -1,6 +1,6 @@
 import Link from "next/link";
-import NavIcon from "@/components/nav-icon/nav-icon";
-import SearchModal from "@/components/search-modal/search-modal";
+import NavIcon from "@/components/nav-icon";
+import SearchModal from "@/components/search-modal";
 
 export default function Header() {
     return (
