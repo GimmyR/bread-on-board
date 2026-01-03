@@ -3,6 +3,7 @@ package mg.breadOnBoard.configuration;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +35,8 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 	
-	private String secretKey = "shbdkfjhabsjkdhfvajkshdvfjkahsvdlfjhavdssvkdvaksdjfahsadvjkfhavk";
+	@Value("${JWT_SECRET}")
+	private String secretKey;
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
