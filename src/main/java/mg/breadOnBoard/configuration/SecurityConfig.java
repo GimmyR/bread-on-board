@@ -38,6 +38,9 @@ public class SecurityConfig {
 	@Value("${JWT_SECRET}")
 	private String secretKey;
 	
+	@Value("${FRONTEND_URL}")
+	private String frontendURL;
+	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -91,9 +94,11 @@ public class SecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.addAllowedOrigin("*");
-		corsConfiguration.addAllowedMethod("*");
-		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedOrigin(frontendURL);
+		corsConfiguration.addAllowedMethod("GET");
+		corsConfiguration.addAllowedMethod("POST");
+		corsConfiguration.addAllowedHeader("Content-Type");
+		corsConfiguration.addAllowedHeader("Authorization");
 		corsConfiguration.addExposedHeader("X-Message");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfiguration);
