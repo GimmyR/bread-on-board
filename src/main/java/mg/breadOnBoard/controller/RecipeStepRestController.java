@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.RecipeResponse;
 import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.dto.StepsForm;
 import mg.breadOnBoard.model.Account;
@@ -37,12 +38,12 @@ public class RecipeStepRestController {
 	}
 	
 	@PostMapping("/api/recipe-steps/save")
-	public ResponseEntity<Recipe> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) {
+	public ResponseEntity<RecipeResponse> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) {
 			
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.findByIdAndAccountId(form.recipeId(), account.getId());
 		recipeStepService.saveAll(recipe, form.steps());
-		return ResponseEntity.status(HttpStatus.OK).body(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.mapToGetOne(recipe));
 		
 	}
 
