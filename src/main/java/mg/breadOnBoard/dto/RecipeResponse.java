@@ -5,5 +5,6 @@ public record RecipeResponse(
 	String title,
 	String ingredients,
 	String image,
-	AccountResponse account
+	AccountResponse account,
+	Iterable<RecipeStepResponse> steps
 ) {}

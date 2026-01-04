@@ -37,15 +37,15 @@ public class RecipeRestController {
 	public ResponseEntity<Iterable<RecipeResponse>> getAll(@RequestParam(name = "s", required = false) String search) {
 		
 		Iterable<Recipe> recipes = recipeService.findAll(search);
-		return ResponseEntity.status(HttpStatus.OK).body(recipeService.mapToResponse(recipes));
+		return ResponseEntity.status(HttpStatus.OK).body(recipeService.mapAllToGetAll(recipes));
 		
 	}
 	
 	@GetMapping("/api/recipes/{id}")
-	public ResponseEntity<Recipe> getOne(@PathVariable String id) {
+	public ResponseEntity<RecipeResponse> getOne(@PathVariable String id) {
 		
 		Recipe recipe = recipeService.findOneById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(recipe);
+		return ResponseEntity.status(HttpStatus.OK).body(recipeService.mapToGetOne(recipe));
 		
 	}
 	

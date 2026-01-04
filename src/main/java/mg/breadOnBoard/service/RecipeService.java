@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.AccountResponse;
 import mg.breadOnBoard.dto.RecipeForm;
 import mg.breadOnBoard.dto.RecipeResponse;
+import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
@@ -98,7 +99,7 @@ public class RecipeService {
 		
 	}
 	
-	public Iterable<RecipeResponse> mapToResponse(Iterable<Recipe> recipes) {
+	public Iterable<RecipeResponse> mapAllToGetAll(Iterable<Recipe> recipes) {
 		
 		List<RecipeResponse> results = new ArrayList<RecipeResponse>();
 		
@@ -107,12 +108,26 @@ public class RecipeService {
 			RecipeResponse res = new RecipeResponse(
 					recipe.getId(), 
 					recipe.getTitle(), 
-					recipe.getIngredients(), 
+					null, 
 					recipe.getImage(),
-					new AccountResponse(recipe.getAccount().getId(), recipe.getAccount().getUsername())
+					null,
+					null
 			); results.add(res);
 			
 		}); return results;
+		
+	}
+	
+	public RecipeResponse mapToGetOne(Recipe recipe) {
+		
+		AccountResponse account = new AccountResponse(recipe.getAccount().getId(), recipe.getAccount().getUsername());
+		List<RecipeStepResponse> steps = new ArrayList<RecipeStepResponse>();
+		
+		recipe.getRecipeSteps().forEach(step -> {
+			
+			steps.add(new RecipeStepResponse(step.getId(), step.getText()));
+			
+		}); return new RecipeResponse(recipe.getId(), recipe.getTitle(), recipe.getIngredients(), recipe.getImage(), account, steps);
 		
 	}
 
