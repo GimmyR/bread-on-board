@@ -1,5 +1,7 @@
 package mg.breadOnBoard.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeStepForm;
+import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
@@ -74,6 +77,18 @@ public class RecipeStepService {
 	public void deleteAllByRecipeId(String recipeId) {
 		
 		recipeStepRepository.deleteAllByRecipeId(recipeId);
+		
+	}
+	
+	public Iterable<RecipeStepResponse> mapAllToGetAllByRecipeId(Iterable<RecipeStep> steps) {
+		
+		List<RecipeStepResponse> result = new ArrayList<RecipeStepResponse>();
+		
+		steps.forEach(step -> {
+			
+			result.add(new RecipeStepResponse(step.getId(), step.getText()));
+			
+		}); return result;
 		
 	}
 

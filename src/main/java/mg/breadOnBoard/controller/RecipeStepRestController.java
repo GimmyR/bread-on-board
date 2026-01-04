@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.dto.StepsForm;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
@@ -28,9 +29,10 @@ public class RecipeStepRestController {
 	private RecipeService recipeService;
 	
 	@GetMapping("/api/recipe-steps/{recipeId}")
-	public ResponseEntity<Iterable<RecipeStep>> getAllByRecipeId(@PathVariable String recipeId) {
+	public ResponseEntity<Iterable<RecipeStepResponse>> getAllByRecipeId(@PathVariable String recipeId) {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(recipeStepService.findAllByRecipeId(recipeId));
+		Iterable<RecipeStep> steps = recipeStepService.findAllByRecipeId(recipeId);
+		return ResponseEntity.status(HttpStatus.OK).body(recipeStepService.mapAllToGetAllByRecipeId(steps));
 		
 	}
 	
