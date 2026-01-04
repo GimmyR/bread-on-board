@@ -3,6 +3,7 @@ import NavIcon from "@/components/nav-icon";
 import SearchModal from "@/components/search-modal";
 
 export default function Header() {
+    const username = null;
     return (
         <>
             <nav className="navbar fixed-top navbar-expand bg-success">
@@ -19,11 +20,13 @@ export default function Header() {
                                 </button>
                             </li>
                             <li className="nav-item">
-                                <NavIcon title="Créer une recette" icon="plus-lg"/>
+                                <NavIcon href="#" title="Créer une recette" icon="plus-lg"/>
                             </li>
                             <li className="nav-item">
-                                {true ? <NavIcon title="Connexion" icon="person-circle"/>
-                                :<NavIcon icon="person-circle" />}
+                                {!username ?
+                                <NavIcon href="/sign-in" title="Connexion" icon="person-circle"/>
+                                :
+                                <NavIcon href="#" title={username} icon="person-circle" />}
                             </li>
                         </ul>
                     </div>
