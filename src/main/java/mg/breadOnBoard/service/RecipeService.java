@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.AccountResponse;
 import mg.breadOnBoard.dto.RecipeForm;
 import mg.breadOnBoard.dto.RecipeResponse;
 import mg.breadOnBoard.exception.NotFoundException;
@@ -104,12 +105,11 @@ public class RecipeService {
 		recipes.forEach(recipe -> {
 			
 			RecipeResponse res = new RecipeResponse(
-					
 					recipe.getId(), 
 					recipe.getTitle(), 
 					recipe.getIngredients(), 
-					recipe.getImage()
-					
+					recipe.getImage(),
+					new AccountResponse(recipe.getAccount().getId(), recipe.getAccount().getUsername())
 			); results.add(res);
 			
 		}); return results;

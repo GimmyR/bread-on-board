@@ -4,5 +4,6 @@ public record RecipeResponse(
 	String id,
 	String title,
 	String ingredients,
-	String image
+	String image,
+	AccountResponse account
 ) {}
