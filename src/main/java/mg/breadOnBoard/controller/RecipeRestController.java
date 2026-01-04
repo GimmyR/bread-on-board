@@ -61,7 +61,6 @@ public class RecipeRestController {
 	@PostMapping("/api/recipe/edit-image/{id}")
 	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable String id, @RequestParam MultipartFile image) {
 		
-		ResponseEntity<String> response = null;
 		Account account = accountService.getAccountByJWT(authorization);
 		
 		try {
@@ -69,13 +68,13 @@ public class RecipeRestController {
 			Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
 			recipe = imageService.upload(recipe, image);
 			recipe = recipeService.save(recipe);
-			response = ResponseEntity.status(HttpStatus.CREATED).body(recipe.getImage());
+			return ResponseEntity.status(HttpStatus.CREATED).body(recipe.getImage());
 			
 		} catch (IOException e) {
 
-			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
-		} return response;
+		}
 		
 	}
 	
@@ -91,8 +90,6 @@ public class RecipeRestController {
 	@PostMapping("/api/recipe/delete/{id}")
 	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
 		
-		ResponseEntity<String> response = null;
-		
 		try {
 				
 			Account account = accountService.getAccountByJWT(authorization);
@@ -100,13 +97,13 @@ public class RecipeRestController {
 			recipeStepService.deleteAllByRecipeId(id);
 			recipeService.delete(recipe);
 			imageService.delete(recipe.getImage());
-			response = ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
+			return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
 		} catch (IOException e) {
 			
-			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
-		} return response;
+		}
 		
 	}
 	
