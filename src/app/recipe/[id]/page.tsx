@@ -4,7 +4,6 @@ import { Metadata } from "next";
 import RecipeNotFound from "@/components/recipe-not-found";
 import bobFetch from "@/lib/bob-fetch";
 import imageURL from "@/lib/image-url";
-import { RecipeStepResponse } from "@/interfaces/recipe-step";
 import { RecipeResponse } from "@/interfaces/recipe";
 import RecipeTopLinks from "@/components/recipe-top-links";
 import RecipeSteps from "@/components/recipe-steps";
@@ -22,8 +21,6 @@ export default async function RecipePage({ params } : Props) {
     const { id } = await params;
     const responseRecipe = await bobFetch(`/api/recipes/${id}`);
     const recipe: RecipeResponse | null = responseRecipe.status == 200 ? responseRecipe.data : null;
-    const responseSteps = await bobFetch(`/api/recipe-steps/${recipe?.id}`);
-    const steps: RecipeStepResponse[] = responseSteps.status == 200 ? responseSteps.data : [];
     const responseIsAuthor = await bobFetch(`/api/recipe/author/${recipe?.account.id}`);
     const isAuthor: boolean = responseIsAuthor.status == 200 ? responseIsAuthor.data : false;
 
@@ -45,7 +42,7 @@ export default async function RecipePage({ params } : Props) {
                 </div>
                 <div className="d-flex flex-column col-12 col-lg-8">
                     <h2 className="text-success text-center text-lg-start text-decoration-underline fs-4">Les étapes à suivre</h2>
-                    <RecipeSteps steps={steps}/>
+                    <RecipeSteps steps={recipe.steps}/>
                 </div>
             </div>
             :
