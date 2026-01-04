@@ -1,15 +1,17 @@
 import CallToAction from "@/components/call-to-action";
 import RecipeSection from "@/components/recipe-section";
-import { API_URL } from "@/lib/api";
+import bobFetch from "@/lib/bob-fetch";
 
 export default async function HomePage() {
-    const response = await fetch(`${API_URL}/api/recipes`);
-    const recipes: Recipe[] = response.ok ? await response.json() : [];
+    const response = await bobFetch("/api/recipes");
+
+    if(response.status != 200)
+        return null;
 
     return (
         <div className="pt-5">
             <CallToAction/>
-            <RecipeSection recipes={recipes}/>
+            <RecipeSection recipes={response.data}/>
         </div>
     )
 }
