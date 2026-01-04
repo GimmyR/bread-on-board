@@ -13,8 +13,8 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-    title: "Bread on Board",
-    description: "Create recipe for your favorite foods.",
+    title: "Get one recipe - Bread on Board",
+    description: "Describe a recipe with its author, ingredients and steps.",
 };
 
 export default async function RecipePage({ params } : Props) {
