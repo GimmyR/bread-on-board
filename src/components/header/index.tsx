@@ -1,9 +1,15 @@
 import Link from "next/link";
 import NavIcon from "@/components/nav-icon";
 import SearchModal from "@/components/search-modal";
+import { cookies } from "next/headers";
+import { getSubjectFromToken } from "@/lib/auth";
+import PersonButton from "../person-button";
 
-export default function Header() {
-    const username = null;
+export default async function Header() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value as string;
+    const username = await getSubjectFromToken(token);
+
     return (
         <>
             <nav className="navbar fixed-top navbar-expand bg-success">
@@ -23,10 +29,7 @@ export default function Header() {
                                 <NavIcon href="#" title="Créer une recette" icon="plus-lg"/>
                             </li>
                             <li className="nav-item">
-                                {!username ?
-                                <NavIcon href="/sign-in" title="Connexion" icon="person-circle"/>
-                                :
-                                <NavIcon href="#" title={username} icon="person-circle" />}
+                                <PersonButton username={username}/>
                             </li>
                         </ul>
                     </div>
