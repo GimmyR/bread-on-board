@@ -29,7 +29,7 @@ public class RecipeService {
 	public Iterable<Recipe> findAll(String search) {
 		
 		if(search != null)
-			return this.findAllByTitleOrIngredients(search);
+			return this.findAllByTitle(search);
 		
 		return recipeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 		
@@ -41,11 +41,11 @@ public class RecipeService {
 		
 	}
 	
-	public Iterable<Recipe> findAllByTitleOrIngredients(String search) {
+	public Iterable<Recipe> findAllByTitle(String search) {
 		
 		String toSearch = "%" + search + "%";
 		
-		return recipeRepository.findByTitleLikeOrIngredientsLike(toSearch, toSearch, Sort.by(Sort.Direction.ASC, "id"));
+		return recipeRepository.findByTitleLike(toSearch, Sort.by(Sort.Direction.ASC, "id"));
 		
 	}
 	
