@@ -115,5 +115,14 @@ public class RecipeRestController {
 		return ResponseEntity.status(HttpStatus.OK).body((recipe != null) && (recipe.getId().equals(id)));
 		
 	}
+	
+	@GetMapping("/api/my-recipes")
+	public ResponseEntity<Iterable<RecipeResponse>> getMyRecipes(@RequestHeader("Authorization") String authorization) {
+		
+		Account account = accountService.getAccountByJWT(authorization);
+		Iterable<RecipeResponse> recipes = recipeService.mapAllToGetAll(account.getRecipes());
+		return ResponseEntity.ok(recipes);
+		
+	}
 
 }
