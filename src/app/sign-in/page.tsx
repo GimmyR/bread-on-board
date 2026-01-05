@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import SignInForm from "./form";
+
+export const metadata: Metadata = {
+    title: "Sign in - Bread on Board",
+    description: "Sign in page for Bread on Board web application.",
+};
 
 export default function SignInPage() {
     const errorMessage = null;
