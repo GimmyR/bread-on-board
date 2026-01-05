@@ -3,6 +3,7 @@ import CreateRecipeForm from "@/components/create-recipe-form";
 import { RecipeResponse } from "@/interfaces/recipe";
 import bobFetch from "@/lib/bob-fetch";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 type Props = {
     params: Promise<{ id: string }>
@@ -15,7 +16,11 @@ export const metadata: Metadata = {
 
 export default async function EditRecipePage({ params } : Props) {
     const { id } = await params;
-    await isAuthor(id);
+    const author = await isAuthor(id);
+
+    if(!author)
+        redirect("/sign-in");
+
     const responseRecipe = await bobFetch(`/api/recipes/${id}`);
     const recipe: RecipeResponse | undefined = responseRecipe.status == 200 ? responseRecipe.data : undefined;
 
