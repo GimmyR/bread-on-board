@@ -36,7 +36,7 @@ export default async function Header() {
                     </div>
                 </div>
             </nav>
-            <SearchModal recipe={{ title: "", ingredients: "" }}/>
+            <SearchModal/>
         </>
     )
 }
