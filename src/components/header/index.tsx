@@ -7,7 +7,7 @@ import PersonButton from "../person-button";
 
 export default async function Header() {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value as string;
+    const token = cookieStore.get("token")?.value;
     const username = await getSubjectFromToken(token);
 
     return (
