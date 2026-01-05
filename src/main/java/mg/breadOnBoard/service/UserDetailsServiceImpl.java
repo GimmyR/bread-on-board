@@ -30,8 +30,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		// Enlever le "{noop}" quand il y aura de l'encodage
-		return new User(account.getUsername(), "{noop}" + account.getPassword(), authorities);
+		UserDetails user = User.withUsername(account.getUsername())
+								.password(account.getPassword())
+								.authorities(authorities).build();
+		
+		return user;
 		
 	}
 
