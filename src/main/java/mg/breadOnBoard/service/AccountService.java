@@ -4,6 +4,10 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
+import mg.breadOnBoard.dto.AccountForm;
+import mg.breadOnBoard.dto.SignUpForm;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.repository.AccountRepository;
@@ -28,6 +34,9 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	private JwtEncoder jwtEncoder;
 	private JwtDecoder jwtDecoder;
+	private final PasswordEncoder passwordEncoder;
+	private AuthenticationManager authenticationManager;
+	private SequenceService sequenceService;
 	
 	public List<Account> findAll() {
 		
@@ -68,9 +77,24 @@ public class AccountService {
 		
 	}
 	
-	public Account save(Account account) {
+	public void authenticate(AccountForm form) {
 		
-		return accountRepository.save(account);
+		Authentication auth = new UsernamePasswordAuthenticationToken(form.username(), form.password());
+		authenticationManager.authenticate(auth);
+		
+	}
+	
+	public Account save(SignUpForm form) {
+		
+		Account account = new Account(
+				
+			sequenceService.generateAccountID(), 
+			form.username(), 
+			form.mailAddress(), 
+			passwordEncoder.encode(form.password()), 
+			null
+			
+		); return accountRepository.save(account);
 		
 	}
 	
