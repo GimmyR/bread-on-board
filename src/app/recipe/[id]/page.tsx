@@ -7,6 +7,7 @@ import imageURL from "@/lib/image-url";
 import { RecipeResponse } from "@/interfaces/recipe";
 import RecipeTopLinks from "@/components/recipe-top-links";
 import RecipeSteps from "@/components/recipe-steps";
+import { cookies } from "next/headers";
 
 type Props = {
     params: Promise<{ id: string }>
@@ -21,7 +22,14 @@ export default async function RecipePage({ params } : Props) {
     const { id } = await params;
     const responseRecipe = await bobFetch(`/api/recipes/${id}`);
     const recipe: RecipeResponse | null = responseRecipe.status == 200 ? responseRecipe.data : null;
-    const responseIsAuthor = await bobFetch(`/api/recipe/author/${recipe?.account.id}`);
+    const cookieStore = await cookies();
+    
+    const responseIsAuthor = await bobFetch(`/api/recipe/author/${recipe?.id}`, {
+        headers: {
+            "Authorization": `Bearer ${cookieStore.get("token")?.value as string}`
+        }
+    }); 
+
     const isAuthor: boolean = responseIsAuthor.status == 200 ? responseIsAuthor.data : false;
 
     return (
