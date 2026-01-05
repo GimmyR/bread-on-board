@@ -10,5 +10,6 @@ export async function getToken() {
 
     if(cookie)
         return cookie.value;
-    else redirect("/sign-in");
+
+    else return undefined
 }
