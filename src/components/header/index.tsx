@@ -9,6 +9,7 @@ export default async function Header() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     const username = await getSubjectFromToken(token);
+    const placeholder = encodeURIComponent("Your recipe title");
 
     return (
         <>
@@ -26,7 +27,7 @@ export default async function Header() {
                                 </button>
                             </li>
                             <li className="nav-item">
-                                <NavIcon href="#" title="Créer une recette" icon="plus-lg"/>
+                                <NavIcon href={`/recipe/create/${placeholder}`} title="Créer une recette" icon="plus-lg"/>
                             </li>
                             <li className="nav-item">
                                 <PersonButton username={username}/>
