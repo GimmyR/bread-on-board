@@ -1,3 +1,4 @@
+import isAuthor from "@/actions/is-author";
 import CreateRecipeForm from "@/components/create-recipe-form";
 import { RecipeResponse } from "@/interfaces/recipe";
 import bobFetch from "@/lib/bob-fetch";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 
 export default async function EditRecipePage({ params } : Props) {
     const { id } = await params;
+    await isAuthor(id);
     const responseRecipe = await bobFetch(`/api/recipes/${id}`);
     const recipe: RecipeResponse | undefined = responseRecipe.status == 200 ? responseRecipe.data : undefined;
 
