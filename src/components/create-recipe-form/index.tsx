@@ -5,7 +5,7 @@ import { RecipeStepForm } from "@/interfaces/recipe-step";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import StepForm from "../step-form";
-import SaveRecipeButton from "../save-recipe-button";
+import RecipeButtons from "@/components/recipe-buttons";
 import { RecipeResponse } from "@/interfaces/recipe";
 import editRecipe from "@/actions/edit-recipe";
 
@@ -60,9 +60,13 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
             router.push(`/recipe/${result.data.id}`);
 
         else { 
-            setError(result.status != 401 ? result.data : "You are not authenticated");
+            handleError(result);
             setIsLoading(false);
         }
+    };
+
+    const handleError = (response: { status: number, data: any }) => {
+        setError(response.status != 401 ? response.data : "You are not authenticated");
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -97,7 +101,7 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
             </div>
             {steps.map((step, index) =>
             <StepForm key={step.id ? step.id : step.key} index={index} step={step} addStepRightAfter={addStepRightAfter} removeStepAt={removeStepAt} handleChange={handleChange}/>)}
-            <SaveRecipeButton isLoading={isLoading}/>
+            <RecipeButtons id={recipe ? recipe.id : undefined} isLoading={isLoading} handleError={handleError}/>
         </form>
     );
 }
