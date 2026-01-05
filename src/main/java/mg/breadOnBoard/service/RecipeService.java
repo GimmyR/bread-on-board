@@ -108,7 +108,7 @@ public class RecipeService {
 			RecipeResponse res = new RecipeResponse(
 					recipe.getId(), 
 					recipe.getTitle(), 
-					null, 
+					recipe.getIngredients(), 
 					recipe.getImage(),
 					null,
 					null
