@@ -12,6 +12,8 @@ export default async function isAuthor(recipeId: string) {
         }
     });
 
-    if((response.status == 200 && !response.data) || response.status != 200)
+    if(response.status != 200 || !response.data)
         return redirect("/");
+
+    else return response.data;
 }
