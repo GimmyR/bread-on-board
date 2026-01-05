@@ -8,6 +8,7 @@ import { RecipeResponse } from "@/interfaces/recipe";
 import RecipeTopLinks from "@/components/recipe-top-links";
 import RecipeSteps from "@/components/recipe-steps";
 import { cookies } from "next/headers";
+import isAuthor from "@/actions/is-author";
 
 type Props = {
     params: Promise<{ id: string }>
@@ -22,15 +23,7 @@ export default async function RecipePage({ params } : Props) {
     const { id } = await params;
     const responseRecipe = await bobFetch(`/api/recipes/${id}`);
     const recipe: RecipeResponse | null = responseRecipe.status == 200 ? responseRecipe.data : null;
-    const cookieStore = await cookies();
-    
-    const responseIsAuthor = await bobFetch(`/api/recipe/author/${recipe?.id}`, {
-        headers: {
-            "Authorization": `Bearer ${cookieStore.get("token")?.value as string}`
-        }
-    }); 
-
-    const isAuthor: boolean = responseIsAuthor.status == 200 ? responseIsAuthor.data : false;
+    const author: boolean =  recipe ? await isAuthor(recipe.id) : false;
 
     return (
         <div className="container-fluid container-lg bg-light">
@@ -38,7 +31,7 @@ export default async function RecipePage({ params } : Props) {
             <div className="d-flex flex-column align-items-center mt-5 py-5 px-3">
                 <div className="d-flex flex-row align-items-center">
                     <h1 className="text-success mb-1">{recipe.title}</h1>
-                    <RecipeTopLinks recipeId={recipe.id} isAuthor={isAuthor}/>
+                    <RecipeTopLinks recipeId={recipe.id} isAuthor={author}/>
                 </div>
                 <h3 className="fs-5 mb-5">
                     par <Link href={`/account/${recipe.account.id}`} className="text-light-green text-decoration-none">{recipe.account.username}</Link>
