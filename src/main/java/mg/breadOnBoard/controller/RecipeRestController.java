@@ -83,7 +83,7 @@ public class RecipeRestController {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.update(account, id, form);
-		return ResponseEntity.status(HttpStatus.OK).body(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
 		
 	}
 	
