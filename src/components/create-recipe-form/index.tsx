@@ -7,6 +7,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import StepForm from "../step-form";
 import SaveRecipeButton from "../save-recipe-button";
 import { RecipeResponse } from "@/interfaces/recipe";
+import editRecipe from "@/actions/edit-recipe";
 
 type Props = {
     title?: string,
@@ -54,12 +55,7 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
         setSteps([...steps]);
     };
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const result = await createRecipe(formData, steps);
-
+    const manageResult = (result: { status: number, data: any }) => {
         if(result.status == 201)
             router.push(`/recipe/${result.data.id}`);
 
@@ -69,13 +65,27 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
         }
     };
 
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        setIsLoading(true);
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        if(!recipe) {
+            const result = await createRecipe(formData, steps);
+            manageResult(result);
+        } else {
+            const result = await editRecipe(recipe.id, formData, steps);
+            manageResult(result);
+        }
+    };
+
     return (
         <form className="d-flex flex-column col-12 col-lg-6 mx-auto mt-0 mt-lg-5 mb-0 mb-lg-5" onSubmit={handleSubmit}>
             {error != null && 
             <div className="alert alert-danger mb-5 py-2" role="alert">{error}</div>}
             <div className="mb-4">
                 <label htmlFor="title" className="form-label text-success fw-bold">Titre de la recette</label>
-                <input type="text" className="form-control" name="title" id="title" defaultValue={title}/>
+                <input type="text" className="form-control" name="title" id="title" defaultValue={recipe ? recipe.title : title}/>
             </div>
             <div className="mb-4">
                 <label htmlFor="image" className="form-label text-success fw-bold">Image de la recette</label>
@@ -83,7 +93,7 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
             </div>
             <div className="mb-4">
                 <label htmlFor="ingredients" className="form-label text-success fw-bold">Les ingrédients de la recette</label>
-                <textarea id="ingredients" name="ingredients" className="form-control"></textarea>
+                <textarea id="ingredients" name="ingredients" className="form-control" defaultValue={recipe && recipe.ingredients}></textarea>
             </div>
             {steps.map((step, index) =>
             <StepForm key={step.id ? step.id : step.key} index={index} step={step} addStepRightAfter={addStepRightAfter} removeStepAt={removeStepAt} handleChange={handleChange}/>)}
