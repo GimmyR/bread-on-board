@@ -22,8 +22,8 @@ export default async function MyRecipes() {
     });
 
     return (
-        <>
+        <div className="d-flex min-vh-100 mt-5">
             {response.status == 200 && <RecipeSection recipes={response.data}/>}
-        </>
+        </div>
     );
 }
