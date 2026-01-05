@@ -11,7 +11,7 @@ export default function SaveRecipeButton({ isLoading } : Props) {
                 </div>
             }
             <button type="submit" className={`btn btn-success ms-3${!isLoading ? "" : " disabled"}`}>
-                Enregistrer
+                Save recipe
             </button>
         </div>
     );

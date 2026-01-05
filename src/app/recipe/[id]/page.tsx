@@ -45,11 +45,11 @@ export default async function RecipePage({ params } : Props) {
                 </h3>
                 <img src={imageURL(recipe.image)} alt={recipe.title} className="img-fluid col-12 col-lg-4 mb-5"/>
                 <div className="d-flex flex-column col-12 col-lg-8 mt-2 mb-3">
-                    <h2 className="text-success text-center text-lg-start text-decoration-underline fs-4 mb-3">Les ingrédients</h2>
+                    <h2 className="text-success text-center text-lg-start text-decoration-underline fs-4 mb-3">Ingredients</h2>
                     <p className="ps-0 ps-lg-3">{recipe.ingredients}</p>
                 </div>
                 <div className="d-flex flex-column col-12 col-lg-8">
-                    <h2 className="text-success text-center text-lg-start text-decoration-underline fs-4">Les étapes à suivre</h2>
+                    <h2 className="text-success text-center text-lg-start text-decoration-underline fs-4">Steps to follow</h2>
                     <RecipeSteps steps={recipe.steps}/>
                 </div>
             </div>

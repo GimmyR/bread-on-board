@@ -16,7 +16,7 @@ export default function StepForm({ index, step, addStepRightAfter, removeStepAt,
                 <button type="button" onClick={() => addStepRightAfter(index)} className="btn btn-outline-light border-0 px-0 me-2">
                     <i className="bi bi-plus-lg text-primary"></i>
                 </button>
-                Etape #{ index + 1 }
+                Step { index + 1 }
                 <button type="button" onClick={() => removeStepAt(index)} className="btn btn-outline-light border-0 px-0 ms-2">
                     <i className="bi bi-trash text-primary"></i>
                 </button>

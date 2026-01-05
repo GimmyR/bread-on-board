@@ -1,4 +1,3 @@
-import { RecipeResponse } from "@/interfaces/recipe";
 import Link from "next/link";
 
 export default function RecipeTopLinks({ recipeId, isAuthor } : { recipeId: string, isAuthor: boolean }) {

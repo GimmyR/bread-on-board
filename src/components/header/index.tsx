@@ -2,22 +2,20 @@ import Link from "next/link";
 import NavIcon from "@/components/nav-icon";
 import SearchModal from "@/components/search-modal";
 import { cookies } from "next/headers";
-import { getSubjectFromToken } from "@/lib/auth";
 import PersonButton from "../person-button";
 
 export default async function Header() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    const username = await getSubjectFromToken(token);
     const placeholder = encodeURIComponent("Your recipe title");
 
     return (
         <>
             <nav className="navbar fixed-top navbar-expand bg-success">
-                <div className="container-fluid-md container">
+                <div className="container-fluid">
                     <Link className="navbar-brand text-light fw-bold" href="/">Bread on Board</Link>
                     <button className="btn btn-outline-light col-lg-4 text-start btn-search d-none d-lg-block" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <i className="bi bi-search"/> Chercher
+                        <i className="bi bi-search me-1"/> Search
                     </button>
                     <div>
                         <ul className="navbar-nav">
@@ -26,11 +24,11 @@ export default async function Header() {
                                     <i className="bi bi-search"/>
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item me-2">
                                 <NavIcon href={`/recipe/create/${placeholder}`} title="Créer une recette" icon="plus-lg"/>
                             </li>
                             <li className="nav-item">
-                                <PersonButton username={username}/>
+                                <PersonButton token={token}/>
                             </li>
                         </ul>
                     </div>

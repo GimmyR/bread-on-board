@@ -32,7 +32,7 @@ export default function SearchModal() {
             <div className="modal-dialog modal-lg modal-fullscreen-md-down">
                 <div className="modal-content rounded-1">
                     <div className="modal-header">
-                        <input type="text" value={search} onChange={handleChange} id="search-modal-input" className="form-control me-1" placeholder="Rechercher une recette"/>
+                        <input type="text" value={search} onChange={handleChange} id="search-modal-input" className="form-control me-1" placeholder="Search"/>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body px-4" style={{ height: 750 }}>

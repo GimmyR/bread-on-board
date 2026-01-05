@@ -1,12 +1,14 @@
-import NavIcon from "@/components/nav-icon";
+import signOut from "@/actions/sign-out";
+import "./style.css";
+import Link from "next/link";
 
-export default function PersonButton({ username } : { username: string | undefined }) {
+export default function PersonButton({ token } : { token: string | undefined }) {
     return (
         <>
-            {!username ?
-                <NavIcon href="/sign-in" title="Connexion" icon="person-circle"/>
+            {!token ?
+                <Link href="/sign-in" className="btn btn-dark button-sign">Sign in</Link>
             :
-                <NavIcon href="#" title={username} icon="person-circle" />
+                <Link href="#" className="btn btn-dark button-sign" onClick={signOut}>Sign out</Link>
             }
         </>
     );

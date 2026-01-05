@@ -84,15 +84,15 @@ export default function CreateRecipeForm({ title, recipe } : Props) {
             {error != null && 
             <div className="alert alert-danger mb-5 py-2" role="alert">{error}</div>}
             <div className="mb-4">
-                <label htmlFor="title" className="form-label text-success fw-bold">Titre de la recette</label>
+                <label htmlFor="title" className="form-label text-success fw-bold">Title</label>
                 <input type="text" className="form-control" name="title" id="title" defaultValue={recipe ? recipe.title : title}/>
             </div>
             <div className="mb-4">
-                <label htmlFor="image" className="form-label text-success fw-bold">Image de la recette</label>
+                <label htmlFor="image" className="form-label text-success fw-bold">Image</label>
                 <input type="file" id="image" className="form-control" accept="image/*" name="image"/>
             </div>
-            <div className="mb-4">
-                <label htmlFor="ingredients" className="form-label text-success fw-bold">Les ingrédients de la recette</label>
+            <div className="mb-3">
+                <label htmlFor="ingredients" className="form-label text-success fw-bold">Ingredients</label>
                 <textarea id="ingredients" name="ingredients" className="form-control" defaultValue={recipe && recipe.ingredients}></textarea>
             </div>
             {steps.map((step, index) =>
