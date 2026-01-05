@@ -1,5 +1,6 @@
 export interface RecipeStepForm {
-    key: number,
+    id?: string
+    key?: number,
     text: string
 }
 
