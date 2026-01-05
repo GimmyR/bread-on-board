@@ -1,7 +1,6 @@
 "use server";
 
 import bobFetch from "@/lib/bob-fetch";
-import { redirect } from "next/navigation";
 import { getToken } from "./get-token";
 
 export default async function isAuthor(recipeId: string) {
@@ -12,8 +11,8 @@ export default async function isAuthor(recipeId: string) {
         }
     });
 
-    if(response.status != 200 || !response.data)
-        return redirect("/");
+    if(response.status != 200)
+        return false;
 
-    else return response.data;
+    return response.data;
 }
