@@ -24,7 +24,7 @@ export default async function Header() {
                                     <i className="bi bi-search"/>
                                 </button>
                             </li>
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <NavIcon href={`/recipe/create/${placeholder}`} title="Créer une recette" icon="plus-lg"/>
                             </li>
                             <li className="nav-item">
