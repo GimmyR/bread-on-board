@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- USEFUL FOR MOBILE STYLE -->
+		<title><th:block th:text="${title} + ' - '"></th:block>Bread on Board</title>
+	</head>
+	<body>
+		<!-- Put header here later -->
+		
+		<div th:replace="~{${view}::copy}">Dynamic view should be displayed here</div>
+		
+		<!-- Put footer here later -->
+	</body>
+</html>
