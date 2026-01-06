@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" th:if="${view != 'sign-in/index'}" class="container-fluid text-bg-dark d-flex flex-row justify-content-between align-items-center py-2">
+			<a href="#" class="text-decoration-none text-light fw-bold">Bread on Board</a>
+			<form th:action="@{ /logout }" method="post">
+				<button type="submit" class="btn btn-danger">Sign out</button>
+			</form>
+		</div>
+	</body>
+</html>

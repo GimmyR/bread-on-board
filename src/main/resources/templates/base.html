@@ -8,8 +8,7 @@
 		<title><th:block th:text="${title} + ' - '"></th:block>Bread on Board</title>
 	</head>
 	<body>
-		<!-- Put header here later -->
-		
+		<div th:replace="~{common/header::copy}">Header should be displayed here</div>
 		<main th:insert="~{${view}::copy}" class="container-fluid">Dynamic view should be displayed here</main>
 		
 		<!-- Put footer here later -->
