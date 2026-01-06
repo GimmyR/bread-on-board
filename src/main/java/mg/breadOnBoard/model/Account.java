@@ -34,6 +34,8 @@ public class Account {
 	
 	private String password;
 	
+	private Boolean admin;
+	
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Recipe> recipes;
 

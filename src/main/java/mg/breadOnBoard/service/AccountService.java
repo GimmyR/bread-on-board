@@ -91,7 +91,8 @@ public class AccountService {
 			sequenceService.generateAccountID(), 
 			form.username(), 
 			form.mailAddress(), 
-			passwordEncoder.encode(form.password()), 
+			passwordEncoder.encode(form.password()),
+			false,
 			null
 			
 		); return accountRepository.save(account);
