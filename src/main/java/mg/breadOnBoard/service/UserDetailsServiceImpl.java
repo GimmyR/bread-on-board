@@ -1,9 +1,5 @@
 package mg.breadOnBoard.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,15 +20,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Account account = accountRepository.findOneByUsername(username);
+		String role = "Client";
 		
 		if(account == null)
 			throw new UsernameNotFoundException(String.format("%s not found", username));
 		
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		if(account.getAdmin())
+			role = "Admin";
 		
 		UserDetails user = User.withUsername(account.getUsername())
 								.password(account.getPassword())
-								.authorities(authorities).build();
+								.roles(role)
+								.build();
 		
 		return user;
 		
