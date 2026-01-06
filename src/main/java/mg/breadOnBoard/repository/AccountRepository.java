@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import mg.breadOnBoard.model.Account;
+import java.util.List;
+
 
 
 
@@ -16,5 +18,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 	Account findOneByIdAndPassword(String id, String password);
 	
 	Account findOneByUsername(String username);
+	
+	List<Account> findByAdmin(Boolean admin);
 
 }

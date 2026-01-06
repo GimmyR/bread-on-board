@@ -38,6 +38,14 @@ public class AccountService {
 	private AuthenticationManager authenticationManager;
 	private SequenceService sequenceService;
 	
+	public boolean adminExists() {
+		
+		List<Account> admins = accountRepository.findByAdmin(true);
+		
+		return admins.size() > 0;
+		
+	}
+	
 	public List<Account> findAll() {
 		
 		return accountRepository.findAll();
@@ -93,6 +101,21 @@ public class AccountService {
 			form.mailAddress(), 
 			passwordEncoder.encode(form.password()),
 			false,
+			null
+			
+		); return accountRepository.save(account);
+		
+	}
+	
+	public Account saveAdmin(String username, String mailAddress, String password) {
+		
+		Account account = new Account(
+				
+			sequenceService.generateAccountID(), 
+			username, 
+			mailAddress, 
+			passwordEncoder.encode(password),
+			true,
 			null
 			
 		); return accountRepository.save(account);
