@@ -50,11 +50,11 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/create")
-	public ResponseEntity<Recipe> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
+	public ResponseEntity<RecipeResponse> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.create(account, form);
-		return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.mapToGetOne(recipe));
 		
 	}
 	
@@ -89,21 +89,21 @@ public class RecipeRestController {
 	
 	@PostMapping("/api/recipe/delete/{id}")
 	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
+			
+		Account account = accountService.getAccountByJWT(authorization);
+		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
+		recipeStepService.deleteAllByRecipeId(id);
+		recipeService.delete(recipe.getId());
 		
 		try {
-				
-			Account account = accountService.getAccountByJWT(authorization);
-			Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId());
-			recipeStepService.deleteAllByRecipeId(id);
-			recipeService.delete(recipe);
+			
 			imageService.delete(recipe.getImage());
-			return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
 		} catch (IOException e) {
 			
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			
-		}
+		} return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
 	}
 	

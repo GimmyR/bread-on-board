@@ -41,7 +41,7 @@ public class Recipe {
 	
 	private String ingredients;
 	
-	@OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RecipeStep> recipeSteps;
 	
 	// METHODS :

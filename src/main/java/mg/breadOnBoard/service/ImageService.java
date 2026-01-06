@@ -30,8 +30,14 @@ public class ImageService {
 	
 	public void delete(String filename) throws IOException {
 		
-		Path file = uploadsDir.resolve(filename);
-		Files.delete(file);
+		if(filename != null) {
+		
+			Path file = uploadsDir.resolve(filename);
+			
+			if(Files.exists(file))
+				Files.delete(file);
+		
+		}
 		
 	}
 

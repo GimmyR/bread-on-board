@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<table th:fragment="copy" class="table table-bordered text-center">
+		<table th:fragment="copy" class="table table-bordered text-center align-middle">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -17,7 +17,11 @@
 					<td th:text="${recipe.account.username}">Recipe's Author</td>
 					<td th:text="${recipe.title}">Recipe's Title</td>
 					<td th:text="${recipe.ingredients}">Recipe's Ingredients</td>
-					<td><a href="#">Remove</a></td>
+					<td>
+						<form th:action="@{/recipe/remove/} + ${recipe.id}" method="post">
+							<button type="submit" class="btn btn-warning">Remove</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

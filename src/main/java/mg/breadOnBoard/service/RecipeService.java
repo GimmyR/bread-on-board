@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.AccountResponse;
 import mg.breadOnBoard.dto.RecipeForm;
@@ -16,6 +17,7 @@ import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
+import mg.breadOnBoard.model.RecipeStep;
 import mg.breadOnBoard.repository.RecipeRepository;
 
 @Service
@@ -25,6 +27,7 @@ public class RecipeService {
 	
 	private RecipeRepository recipeRepository;
 	private SequenceService sequenceService;
+	private EntityManager entityManager;
 	
 	public Iterable<Recipe> findAll(String search) {
 		
@@ -93,11 +96,12 @@ public class RecipeService {
 		
 	}
 	
-	public void delete(Recipe recipe) {
-		
-		recipeRepository.delete(recipe);
-		
+	public void delete(String recipeId) {
+	    entityManager.createQuery("DELETE FROM Recipe r WHERE r.id = :id")
+	                 .setParameter("id", recipeId)
+	                 .executeUpdate();
 	}
+
 	
 	public Iterable<RecipeResponse> mapAllToGetAll(Iterable<Recipe> recipes) {
 		
@@ -122,12 +126,12 @@ public class RecipeService {
 		
 		AccountResponse account = new AccountResponse(recipe.getAccount().getId(), recipe.getAccount().getUsername());
 		List<RecipeStepResponse> steps = new ArrayList<RecipeStepResponse>();
+		List<RecipeStep> recipeSteps = recipe.getRecipeSteps();
 		
-		recipe.getRecipeSteps().forEach(step -> {
-			
-			steps.add(new RecipeStepResponse(step.getId(), step.getText()));
-			
-		}); return new RecipeResponse(recipe.getId(), recipe.getTitle(), recipe.getIngredients(), recipe.getImage(), account, steps);
+		if(recipeSteps != null)
+			recipeSteps.forEach(step -> { steps.add(new RecipeStepResponse(step.getId(), step.getText())); });
+		
+		return new RecipeResponse(recipe.getId(), recipe.getTitle(), recipe.getIngredients(), recipe.getImage(), account, steps);
 		
 	}
 
