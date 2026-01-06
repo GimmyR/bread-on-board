@@ -74,7 +74,8 @@ public class SecurityConfig {
     SecurityFilterChain webSecurity(HttpSecurity httpSecurity) throws Exception {
 
 		httpSecurity
-				.formLogin(login -> login.loginPage("/sign-in").permitAll())
+				.formLogin(login -> login.loginPage("/sign-in").defaultSuccessUrl("/").permitAll())
+				.logout(logout -> logout.logoutSuccessUrl("/sign-in?logout").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/webjars/**", "/css/**").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/**").hasRole("Admin"))
 				.userDetailsService(userDetailsService);
