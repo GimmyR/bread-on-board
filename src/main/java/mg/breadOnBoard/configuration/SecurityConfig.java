@@ -47,25 +47,39 @@ public class SecurityConfig {
 	private Integer passwordStrength;
 	
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain apiSecurity(HttpSecurity httpSecurity) throws Exception {
+		
+		httpSecurity
+				.securityMatcher("/api/**")
+				.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    			.csrf(csrf -> csrf.disable())
+    			.cors(Customizer.withDefaults())
+    			.authorizeHttpRequests(authorize -> authorize.requestMatchers(
+    					"/api/recipe/create", 
+    					"/api/recipe/edit/**",
+    					"/api/recipe/delete/**",
+    					"/api/recipe/author/**",
+    					"/api/recipe-step/save-all",
+    					"/api/account/username",
+    					"/api/my-recipes").authenticated())
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+				.userDetailsService(userDetailsService)
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
-        return http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        			.csrf(csrf -> csrf.disable())
-        			.cors(Customizer.withDefaults())
-        			.authorizeHttpRequests(
-        					authorize -> authorize.requestMatchers(
-        							"/api/recipe/create", 
-        							"/api/recipe/edit/**", 
-        							"/api/recipe/delete/**", 
-        							"/api/recipe/author/**", 
-        							"/api/recipe-step/save-all",
-        							"/api/account/username",
-        							"/api/my-recipes")
-        						.authenticated())
-					.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-					.userDetailsService(userDetailsService)
-					.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-					.build();
+        return httpSecurity.build();
+		
+	}
+	
+	@Bean
+    SecurityFilterChain webSecurity(HttpSecurity httpSecurity) throws Exception {
+
+		httpSecurity
+				.formLogin(login -> login.loginPage("/sign-in").permitAll())
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/webjars/**", "/css/**").permitAll())
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/**").hasRole("Admin"))
+				.userDetailsService(userDetailsService);
+		
+		return httpSecurity.build();
 		
 	}
 	
