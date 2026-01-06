@@ -5,17 +5,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import mg.breadOnBoard.domain.BobView;
-import mg.breadOnBoard.dto.AccountForm;
 
 @Controller
 public class AdminController {
 	
-	@GetMapping("/back")
+	@GetMapping("/sign-in")
 	public String signInAsAdmin(Model model) {
 		
-		AccountForm form = new AccountForm(null, null);
-		model.addAttribute("form", form);
-		return BobView.configure(model, "back/sign-in", "Sign in as Administrator");
+		return BobView.configure(model, "sign-in", "Login");
+		
+	}
+	
+	@GetMapping("/")
+	public String getHome(Model mode) {
+		
+		return BobView.configure(mode, "home", "Home");
 		
 	}
 
