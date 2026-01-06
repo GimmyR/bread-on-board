@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
     return (
-        <div className="container-fluid container-lg pt-5">
+        <div className="container pt-5">
             <div className="d-flex flex-row justify-content-center">
                 <SignInForm isSigningUp/>
             </div>

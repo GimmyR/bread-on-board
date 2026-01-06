@@ -8,7 +8,7 @@ export default function AccountButton() {
                 <i className="bi bi-person-circle"></i>
             </Link>
             <ul className="dropdown-menu dropdown-menu-end text-center pb-3">
-                <li><Link className="dropdown-item" href="/my-recipes">My recipes</Link></li>
+                <li><Link className="dropdown-item" href="/my-recipes">Your recipes</Link></li>
                 <li className="px-3"><Link className="btn btn-danger col-12 mt-2" href="#" onClick={signOut}>Sign out</Link></li>
             </ul>
         </div>
