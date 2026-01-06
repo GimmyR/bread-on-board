@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import mg.breadOnBoard.service.AccountService;
 
 @Configuration
-public class StartupRunner implements CommandLineRunner {
+public class AdminInitializer implements CommandLineRunner {
 	
 	@Autowired
 	private AccountService accountService;
