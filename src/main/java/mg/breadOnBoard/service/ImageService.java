@@ -23,7 +23,7 @@ public class ImageService {
 		recipe.editImage(image);
 		Files.copy(
 				image.getInputStream(), 
-				uploadsDir.resolve(image.getOriginalFilename()),
+				uploadsDir.resolve(recipe.getImage()),
 				StandardCopyOption.REPLACE_EXISTING
 		);
 		

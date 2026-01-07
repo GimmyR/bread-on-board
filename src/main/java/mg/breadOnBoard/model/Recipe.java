@@ -2,6 +2,7 @@ package mg.breadOnBoard.model;
 
 import java.util.List;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
@@ -64,7 +65,9 @@ public class Recipe {
 		if(image.isEmpty())
 			throw new FileIsEmptyException();
 		
-		this.image = image.getOriginalFilename();
+		String extension = StringUtils.getFilenameExtension(image.getOriginalFilename());
+		
+		this.image = this.id + "." + extension;
 		
 	}
 
