@@ -44,10 +44,8 @@ public class AdminController {
 	public String removeRecipe(Model model, @PathVariable Long id) throws IOException, NotFoundException {
 			
 		Recipe recipe = recipeService.findOneById(id, false, false);
-		recipeStepService.deleteAllByRecipeId(recipe.getId());
-		recipeService.deleteByRecipeId(recipe.getId());
-		//recipeStepService.deleteAllByRecipe(recipe);
-		//recipeService.delete(recipe);
+		recipeStepService.deleteAllByRecipe(recipe);
+		recipeService.delete(recipe);
 		imageService.delete(recipe.getImage());
 		return "redirect:/";
 		

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeStepForm;
 import mg.breadOnBoard.dto.RecipeStepResponse;
@@ -23,7 +22,6 @@ import mg.breadOnBoard.repository.RecipeStepRepository;
 public class RecipeStepService {
 	
 	private RecipeStepRepository recipeStepRepository;
-	private EntityManager entityManager;
 	
 	public Iterable<RecipeStep> findAllByRecipeId(Long recipeId) {
 		
@@ -50,22 +48,6 @@ public class RecipeStepService {
 	
 	public void saveAll(Recipe recipe, Iterable<RecipeStepForm> steps) {
 		
-		this.deleteAllByRecipeId(recipe.getId());
-		
-		int order = 1;
-		
-		for(RecipeStepForm step : steps) {
-			
-			RecipeStep recipeStep = new RecipeStep(null, recipe, order, step.text());
-			this.save(recipeStep);
-			order++;
-			
-		}
-		
-	}
-	
-	public void saveAll_2(Recipe recipe, Iterable<RecipeStepForm> steps) {
-		
 		this.deleteAllByRecipe(recipe);
 		
 		int order = 1;
@@ -89,14 +71,6 @@ public class RecipeStepService {
 	public void deleteAllByRecipe(Recipe recipe) {
 		
 		recipeStepRepository.deleteAllByRecipeId(recipe.getId());
-		
-	}
-	
-	public void deleteAllByRecipeId(Long recipeId) {
-		
-		entityManager.createQuery("DELETE FROM RecipeStep r WHERE r.recipe.id = :id")
-				        .setParameter("id", recipeId)
-				        .executeUpdate();
 		
 	}
 	

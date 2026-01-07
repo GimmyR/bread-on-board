@@ -86,10 +86,8 @@ public class RecipeRestController {
 			
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
-		recipeStepService.deleteAllByRecipeId(id);
-		recipeService.deleteByRecipeId(recipe.getId());
-		//recipeStepService.deleteAllByRecipe(recipe);
-		//recipeService.delete(recipe);
+		recipeStepService.deleteAllByRecipe(recipe);
+		recipeService.delete(recipe);
 		imageService.delete(recipe.getImage());
 		return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
@@ -108,8 +106,9 @@ public class RecipeRestController {
 	public ResponseEntity<Iterable<RecipeResponse>> getMyRecipes(@RequestHeader("Authorization") String authorization) {
 		
 		Account account = accountService.getAccountByJWT(authorization, true);
-		Iterable<RecipeResponse> recipes = recipeService.mapAllToGetAll(account.getRecipes());
-		return ResponseEntity.ok(recipes);
+		Iterable<Recipe> recipes = account.getRecipes();
+		Iterable<RecipeResponse> res = recipeService.mapAllToGetAll(recipes);
+		return ResponseEntity.ok(res);
 		
 	}
 

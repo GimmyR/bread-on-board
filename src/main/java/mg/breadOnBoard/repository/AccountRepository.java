@@ -21,7 +21,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	
 	Account findOneByUsername(String username);
 	
-	@Query("select a from Account a join fetch a.recipes where a.username = :username")
+	@Query("select a from Account a left join fetch a.recipes where a.username = :username")
 	Account findOneByUsernameWithRecipes(@Param("username") String username);
 	
 	List<Account> findByAdmin(Boolean admin);

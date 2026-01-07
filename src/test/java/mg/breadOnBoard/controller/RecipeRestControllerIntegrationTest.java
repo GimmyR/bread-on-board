@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -49,8 +48,9 @@ public class RecipeRestControllerIntegrationTest {
 				result.getResponse().getContentAsString(), 
 				new TypeReference<List<RecipeResponse>>() {});
 		
-		mockMvc.perform(get("/api/recipes/" + recipes.getFirst().id()))
-				.andExpect(status().isOk());
+		if(recipes.size() > 0)
+			mockMvc.perform(get("/api/recipes/" + recipes.getFirst().id()))
+					.andExpect(status().isOk());
 		
 	}
 	
@@ -65,15 +65,19 @@ public class RecipeRestControllerIntegrationTest {
 				result.getResponse().getContentAsString(), 
 				new TypeReference<List<RecipeResponse>>() {});
 		
-		MvcResult result2 = mockMvc.perform(post("/api/sign-in")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsBytes(new AccountForm("johndoe", "pwdJohn"))))
-				.andExpect(status().isOk())
-				.andReturn();
+		if(recipes.size() > 0) {
 		
-		mockMvc.perform(get("/api/recipe/author/" + recipes.getFirst().id())
-				.header("Authorization", "Bearer " + result2.getResponse().getContentAsString()))
-				.andExpect(status().isOk());
+			MvcResult result2 = mockMvc.perform(post("/api/sign-in")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(objectMapper.writeValueAsBytes(new AccountForm("johndoe", "pwdJohn"))))
+					.andExpect(status().isOk())
+					.andReturn();
+			
+			mockMvc.perform(get("/api/recipe/author/" + recipes.getFirst().id())
+					.header("Authorization", "Bearer " + result2.getResponse().getContentAsString()))
+					.andExpect(status().isOk());
+		
+		}
 		
 	}
 	

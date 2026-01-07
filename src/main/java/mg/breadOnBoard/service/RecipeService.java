@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.AccountResponse;
 import mg.breadOnBoard.dto.RecipeForm;
@@ -26,8 +25,6 @@ import mg.breadOnBoard.repository.RecipeRepository;
 public class RecipeService {
 	
 	private RecipeRepository recipeRepository;
-	private EntityManager entityManager;
-	
 	public Iterable<Recipe> findAll(String search) {
 		
 		if(search != null)
@@ -110,13 +107,6 @@ public class RecipeService {
 		recipeRepository.delete(recipe);
 		
 	}
-	
-	public void deleteByRecipeId(Long recipeId) {
-	    entityManager.createQuery("DELETE FROM Recipe r WHERE r.id = :id")
-	                 .setParameter("id", recipeId)
-	                 .executeUpdate();
-	}
-
 	
 	public Iterable<RecipeResponse> mapAllToGetAll(Iterable<Recipe> recipes) {
 		

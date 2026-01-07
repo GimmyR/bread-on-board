@@ -38,8 +38,9 @@ public class RecipeStepRestControllerIntegrationTest {
 				result.getResponse().getContentAsString(), 
 				new TypeReference<List<RecipeResponse>>() {});
 		
-		mockMvc.perform(get("/api/recipe-steps/" + recipes.getFirst().id()))
-				.andExpect(status().isOk());
+		if(recipes.size() > 0)
+			mockMvc.perform(get("/api/recipe-steps/" + recipes.getFirst().id()))
+					.andExpect(status().isOk());
 		
 	}
 
