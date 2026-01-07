@@ -33,7 +33,7 @@ public class AccountRestController {
 	@GetMapping("/api/username")
 	public ResponseEntity<String> getUsername(@RequestHeader("Authorization") String authorization) {
 		
-		Account account = accountService.getAccountByJWT(authorization);
+		Account account = accountService.getAccountByJWT(authorization, false);
 		return ResponseEntity.status(HttpStatus.OK).body(account.getUsername());
 		
 	}

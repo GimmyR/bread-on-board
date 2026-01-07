@@ -52,9 +52,14 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findOneById(String id) {
+	public Recipe findOneById(String id, boolean withAccount, boolean withSteps) {
 		
-		Optional<Recipe> opt = recipeRepository.findById(id);
+		Optional<Recipe> opt = null;
+		
+		if(withAccount && withSteps)
+			opt = recipeRepository.findByIdWithAccountAndWithSteps(id);
+			
+		else opt = recipeRepository.findById(id);
 		
 		if(opt.isPresent())
 			return opt.get();
@@ -63,9 +68,14 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findByIdAndAccountId(String id, String accountId) {
+	public Recipe findByIdAndAccountId(String id, String accountId, boolean withAccount, boolean withSteps) {
 		
-		Recipe recipe = recipeRepository.findOneByIdAndAccountId(id, accountId);
+		Recipe recipe = null;
+		
+		if(withAccount && withSteps)
+			recipe = recipeRepository.findOneByIdAndAccountIdWithAccountAndWithSteps(id, accountId);
+		
+		else recipe = recipeRepository.findOneByIdAndAccountId(id, accountId);
 		
 		if(recipe == null)
 			throw new NotFoundException("Recipe not found");
@@ -83,7 +93,7 @@ public class RecipeService {
 	
 	public Recipe update(Account account, String recipeId, RecipeForm form) {
 		
-		Recipe recipe = this.findByIdAndAccountId(recipeId, account.getId());
+		Recipe recipe = this.findByIdAndAccountId(recipeId, account.getId(), false, false);
 		recipe.editTitle(form.title());
 		recipe.editIngredients(form.ingredients());
 		return recipeRepository.save(recipe);
@@ -96,7 +106,13 @@ public class RecipeService {
 		
 	}
 	
-	public void delete(String recipeId) {
+	public void delete(Recipe recipe) {
+		
+		recipeRepository.delete(recipe);
+		
+	}
+	
+	public void deleteByRecipeId(String recipeId) {
 	    entityManager.createQuery("DELETE FROM Recipe r WHERE r.id = :id")
 	                 .setParameter("id", recipeId)
 	                 .executeUpdate();

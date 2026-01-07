@@ -144,12 +144,14 @@ public class AccountService {
 		
 	}
 	
-	public Account getAccountByJWT(String authorization) {
+	public Account getAccountByJWT(String authorization, boolean withRecipes) {
 		
 		String username = getUsernameByJWT(authorization);
-		Account account = accountRepository.findOneByUsername(username);
 		
-		return account;
+		if(withRecipes)
+			return accountRepository.findOneByUsernameWithRecipes(username);
+		
+		return accountRepository.findOneByUsername(username);
 		
 	}
 	

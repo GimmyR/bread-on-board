@@ -70,9 +70,31 @@ public class RecipeStepService {
 		
 	}
 	
+	public void saveAll_2(Recipe recipe, Iterable<RecipeStepForm> steps) {
+		
+		this.deleteAllByRecipe(recipe);
+		
+		int order = 1;
+		
+		for(RecipeStepForm step : steps) {
+			
+			RecipeStep recipeStep = new RecipeStep(null, recipe, order, step.text());
+			this.save(recipeStep);
+			order++;
+			
+		}
+		
+	}
+	
 	public void delete(RecipeStep step) {
 		
 		recipeStepRepository.delete(step);
+		
+	}
+	
+	public void deleteAllByRecipe(Recipe recipe) {
+		
+		recipeStepRepository.deleteAllByRecipeId(recipe.getId());
 		
 	}
 	

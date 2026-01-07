@@ -46,9 +46,11 @@ public class AdminController {
 		
 		try {
 			
-			Recipe recipe = recipeService.findOneById(id);
+			Recipe recipe = recipeService.findOneById(id, false, false);
 			recipeStepService.deleteAllByRecipeId(recipe.getId());
-			recipeService.delete(recipe.getId());
+			recipeService.deleteByRecipeId(recipe.getId());
+			//recipeStepService.deleteAllByRecipe(recipe);
+			//recipeService.delete(recipe);
 			imageService.delete(recipe.getImage());
 			
 		} catch (Exception e) {

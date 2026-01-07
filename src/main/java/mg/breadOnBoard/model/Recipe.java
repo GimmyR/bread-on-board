@@ -31,8 +31,8 @@ public class Recipe {
 	@Id
 	private String id;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Account account;
 	
 	private String title;
@@ -41,7 +41,7 @@ public class Recipe {
 	
 	private String ingredients;
 	
-	@OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RecipeStep> recipeSteps;
 	
 	// METHODS :
