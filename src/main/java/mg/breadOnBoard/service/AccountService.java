@@ -1,6 +1,7 @@
 package mg.breadOnBoard.service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import mg.breadOnBoard.dto.AccountForm;
 import mg.breadOnBoard.dto.SignUpForm;
 import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
+import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.repository.AccountRepository;
 
 @Service
@@ -100,7 +102,7 @@ public class AccountService {
 			form.mailAddress(), 
 			passwordEncoder.encode(form.password()),
 			false,
-			null
+			new ArrayList<Recipe>()
 			
 		); return accountRepository.save(account);
 		
@@ -115,7 +117,7 @@ public class AccountService {
 			mailAddress, 
 			passwordEncoder.encode(password),
 			true,
-			null
+			new ArrayList<Recipe>()
 			
 		); return accountRepository.save(account);
 		

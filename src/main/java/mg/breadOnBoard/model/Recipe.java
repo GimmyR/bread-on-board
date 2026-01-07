@@ -1,5 +1,6 @@
 package mg.breadOnBoard.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -44,7 +45,7 @@ public class Recipe {
 	private String ingredients;
 	
 	@OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RecipeStep> recipeSteps;
+	private List<RecipeStep> recipeSteps = new ArrayList<RecipeStep>();
 	
 	// METHODS :
 	

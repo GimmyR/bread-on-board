@@ -54,7 +54,10 @@ public class RecipeService {
 		
 		if(withAccount && withSteps)
 			opt = recipeRepository.findByIdWithAccountAndWithSteps(id);
-			
+		
+		else if(!withAccount && withSteps)
+			opt = recipeRepository.findByIdWithSteps(id);
+		
 		else opt = recipeRepository.findById(id);
 		
 		if(opt.isPresent())
@@ -82,7 +85,7 @@ public class RecipeService {
 	
 	public Recipe create(Account account, RecipeForm form) {
 		
-		Recipe recipe = new Recipe(null, account, form.title(), null, form.ingredients(), null);
+		Recipe recipe = new Recipe(null, account, form.title(), null, form.ingredients(), new ArrayList<RecipeStep>());
 		return recipeRepository.save(recipe);
 		
 	}

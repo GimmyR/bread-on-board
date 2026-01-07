@@ -1,5 +1,6 @@
 package mg.breadOnBoard.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -35,6 +36,6 @@ public class Account {
 	private Boolean admin;
 	
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Recipe> recipes;
+	private List<Recipe> recipes = new ArrayList<Recipe>();
 
 }

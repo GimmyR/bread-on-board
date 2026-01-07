@@ -23,7 +23,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	@Query("select r from Recipe r join fetch r.account a left join fetch r.recipeSteps s where r.id = :id and a.id = :account_id")
 	Recipe findOneByIdAndAccountIdWithAccountAndWithSteps(@Param("id") Long id, @Param("account_id") Long accountId);
 	
-	@Query("select r from Recipe r join fetch r.account join fetch r.recipeSteps where r.id = :id")
+	@Query("select r from Recipe r join fetch r.account left join fetch r.recipeSteps where r.id = :id")
 	Optional<Recipe> findByIdWithAccountAndWithSteps(@Param("id") Long id);
+	
+	@Query("select r from Recipe r left join fetch r.recipeSteps where r.id = :id")
+	Optional<Recipe> findByIdWithSteps(@Param("id") Long id);
 
 }

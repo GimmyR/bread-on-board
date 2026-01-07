@@ -25,7 +25,7 @@ public class RecipeStepService {
 	
 	public Iterable<RecipeStep> findAllByRecipeId(Long recipeId) {
 		
-		return recipeStepRepository.findAllByRecipeId(recipeId, Sort.by(Sort.Direction.ASC, "order"));
+		return recipeStepRepository.findAllByRecipeIdOrderByOrderASC(recipeId);
 		
 	}
 	
@@ -70,7 +70,10 @@ public class RecipeStepService {
 	
 	public void deleteAllByRecipe(Recipe recipe) {
 		
-		recipeStepRepository.deleteAllByRecipeId(recipe.getId());
+		List<RecipeStep> steps = recipe.getRecipeSteps();
+		
+		if(steps != null)
+			recipe.getRecipeSteps().forEach(step -> this.delete(step));
 		
 	}
 	
