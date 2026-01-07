@@ -54,7 +54,8 @@ public class RecipeRestController {
 		
 		Account account = accountService.getAccountByJWT(authorization);
 		Recipe recipe = recipeService.create(account, form);
-		return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.mapToGetOne(recipe));
+		RecipeResponse res = recipeService.mapToGetOne(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(res);
 		
 	}
 	
