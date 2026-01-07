@@ -1,8 +1,6 @@
 package mg.breadOnBoard.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
+import java.io.IOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,22 +40,15 @@ public class AdminController {
 	}
 	
 	@PostMapping("/recipe/remove/{id}")
-	public String removeRecipe(Model model, @PathVariable Long id) {
-		
-		try {
+	public String removeRecipe(Model model, @PathVariable Long id) throws IOException {
 			
-			Recipe recipe = recipeService.findOneById(id, false, false);
-			recipeStepService.deleteAllByRecipeId(recipe.getId());
-			recipeService.deleteByRecipeId(recipe.getId());
-			//recipeStepService.deleteAllByRecipe(recipe);
-			//recipeService.delete(recipe);
-			imageService.delete(recipe.getImage());
-			
-		} catch (Exception e) {
-			
-			return "redirect:/?message=" + URLEncoder.encode("Recipe is not removed", StandardCharsets.UTF_8);
-			
-		} return "redirect:/";
+		Recipe recipe = recipeService.findOneById(id, false, false);
+		recipeStepService.deleteAllByRecipeId(recipe.getId());
+		recipeService.deleteByRecipeId(recipe.getId());
+		//recipeStepService.deleteAllByRecipe(recipe);
+		//recipeService.delete(recipe);
+		imageService.delete(recipe.getImage());
+		return "redirect:/";
 		
 	}
 

@@ -60,22 +60,13 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit-image/{id}")
-	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @RequestParam MultipartFile image) {
+	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @RequestParam MultipartFile image) throws IOException {
 		
 		Account account = accountService.getAccountByJWT(authorization, false);
-		
-		try {
-			
-			Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
-			recipe = imageService.upload(recipe, image);
-			recipe = recipeService.save(recipe);
-			return ResponseEntity.status(HttpStatus.CREATED).body(recipe.getImage());
-			
-		} catch (IOException e) {
-
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-			
-		}
+		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
+		recipe = imageService.upload(recipe, image);
+		recipe = recipeService.save(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipe.getImage());
 		
 	}
 	
@@ -89,7 +80,7 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/delete/{id}")
-	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
+	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable Long id) throws IOException {
 			
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
@@ -97,16 +88,8 @@ public class RecipeRestController {
 		recipeService.deleteByRecipeId(recipe.getId());
 		//recipeStepService.deleteAllByRecipe(recipe);
 		//recipeService.delete(recipe);
-		
-		try {
-			
-			imageService.delete(recipe.getImage());
-		
-		} catch (IOException e) {
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-			
-		} return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
+		imageService.delete(recipe.getImage());
+		return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");
 		
 	}
 	
