@@ -1,6 +1,6 @@
 package mg.breadOnBoard.dto;
 
 public record RecipeStepResponse(
-		String id,
+		Long id,
 		String text
 ) {}

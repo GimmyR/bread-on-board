@@ -1,7 +1,7 @@
 package mg.breadOnBoard.dto;
 
 public record RecipeResponse(
-	String id,
+	Long id,
 	String title,
 	String ingredients,
 	String image,

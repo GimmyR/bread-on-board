@@ -13,11 +13,11 @@ import java.util.List;
 
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, String> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 	
 	Account findOneByUsernameAndPassword(String username, String password);
 	
-	Account findOneByIdAndPassword(String id, String password);
+	Account findOneByIdAndPassword(Long id, String password);
 	
 	Account findOneByUsername(String username);
 	

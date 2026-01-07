@@ -7,10 +7,13 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,14 +25,12 @@ import mg.breadOnBoard.exception.FileIsEmptyException;
 @AllArgsConstructor
 public class Recipe {
 	
-	public static final String PREFIX = "R";
-	
-	public static final int LENGTH_ID = 5;
-	
 	// ATTRIBUTES :
 	
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_sequence_generator")
+	@SequenceGenerator(name = "recipe_sequence_generator", sequenceName = "RECIPE_SEQ", allocationSize = 1)
+	private Long id;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)

@@ -42,7 +42,7 @@ public class AdminController {
 	}
 	
 	@PostMapping("/recipe/remove/{id}")
-	public String removeRecipe(Model model, @PathVariable String id) {
+	public String removeRecipe(Model model, @PathVariable Long id) {
 		
 		try {
 			

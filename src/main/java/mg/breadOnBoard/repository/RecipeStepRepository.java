@@ -9,10 +9,10 @@ import java.util.List;
 
 
 @Repository
-public interface RecipeStepRepository extends JpaRepository<RecipeStep, String> {
+public interface RecipeStepRepository extends JpaRepository<RecipeStep, Long> {
 	
-	List<RecipeStep> findAllByRecipeId(String recipeId, Sort sort);
+	List<RecipeStep> findAllByRecipeId(Long recipeId, Sort sort);
 	
-	void deleteAllByRecipeId(String recipeId);
+	void deleteAllByRecipeId(Long recipeId);
 
 }

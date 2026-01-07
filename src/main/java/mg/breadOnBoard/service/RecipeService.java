@@ -26,7 +26,6 @@ import mg.breadOnBoard.repository.RecipeRepository;
 public class RecipeService {
 	
 	private RecipeRepository recipeRepository;
-	private SequenceService sequenceService;
 	private EntityManager entityManager;
 	
 	public Iterable<Recipe> findAll(String search) {
@@ -38,7 +37,7 @@ public class RecipeService {
 		
 	}
 	
-	public Iterable<Recipe> findAllByAccountId(String accountId) {
+	public Iterable<Recipe> findAllByAccountId(Long accountId) {
 		
 		return recipeRepository.findByAccountId(accountId, Sort.by(Sort.Direction.ASC, "accountId"));
 		
@@ -52,7 +51,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findOneById(String id, boolean withAccount, boolean withSteps) {
+	public Recipe findOneById(Long id, boolean withAccount, boolean withSteps) {
 		
 		Optional<Recipe> opt = null;
 		
@@ -68,7 +67,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findByIdAndAccountId(String id, String accountId, boolean withAccount, boolean withSteps) {
+	public Recipe findByIdAndAccountId(Long id, Long accountId, boolean withAccount, boolean withSteps) {
 		
 		Recipe recipe = null;
 		
@@ -86,12 +85,12 @@ public class RecipeService {
 	
 	public Recipe create(Account account, RecipeForm form) {
 		
-		Recipe recipe = new Recipe(sequenceService.generateRecipeID(), account, form.title(), null, form.ingredients(), null);
+		Recipe recipe = new Recipe(null, account, form.title(), null, form.ingredients(), null);
 		return recipeRepository.save(recipe);
 		
 	}
 	
-	public Recipe update(Account account, String recipeId, RecipeForm form) {
+	public Recipe update(Account account, Long recipeId, RecipeForm form) {
 		
 		Recipe recipe = this.findByIdAndAccountId(recipeId, account.getId(), false, false);
 		recipe.editTitle(form.title());
@@ -112,7 +111,7 @@ public class RecipeService {
 		
 	}
 	
-	public void deleteByRecipeId(String recipeId) {
+	public void deleteByRecipeId(Long recipeId) {
 	    entityManager.createQuery("DELETE FROM Recipe r WHERE r.id = :id")
 	                 .setParameter("id", recipeId)
 	                 .executeUpdate();

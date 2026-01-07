@@ -5,8 +5,11 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +20,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Account {
 	
-	// ATTRIBUTES :
-	
-	public static final String PREFIX = "A";
-	
-	public static final int LENGTH_ID = 4; // Minus 1 because it's without the prefix
-	
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_sequence_generator")
+	@SequenceGenerator(name = "account_sequence_generator", sequenceName = "ACCOUNT_SEQ", allocationSize = 1)
+	private Long id;
 	
 	private String username;
 	

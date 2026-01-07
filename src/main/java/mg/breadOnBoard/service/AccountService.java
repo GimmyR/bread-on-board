@@ -36,7 +36,6 @@ public class AccountService {
 	private JwtDecoder jwtDecoder;
 	private final PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
-	private SequenceService sequenceService;
 	
 	public boolean adminExists() {
 		
@@ -52,7 +51,7 @@ public class AccountService {
 		
 	}
 	
-	public Account findById(String id) {
+	public Account findById(Long id) {
 		
 		Optional<Account> opt = accountRepository.findById(id);
 		
@@ -74,7 +73,7 @@ public class AccountService {
 		
 	}
 	
-	public Account findByIdAndPassword(String id, String password) {
+	public Account findByIdAndPassword(Long id, String password) {
 		
 		Account account = accountRepository.findOneByIdAndPassword(id, password);
 		
@@ -96,7 +95,7 @@ public class AccountService {
 		
 		Account account = new Account(
 				
-			sequenceService.generateAccountID(), 
+			null, 
 			form.username(), 
 			form.mailAddress(), 
 			passwordEncoder.encode(form.password()),
@@ -111,7 +110,7 @@ public class AccountService {
 		
 		Account account = new Account(
 				
-			sequenceService.generateAccountID(), 
+			null, 
 			username, 
 			mailAddress, 
 			passwordEncoder.encode(password),

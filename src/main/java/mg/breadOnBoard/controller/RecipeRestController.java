@@ -42,7 +42,7 @@ public class RecipeRestController {
 	}
 	
 	@GetMapping("/api/recipes/{id}")
-	public ResponseEntity<RecipeResponse> getOne(@PathVariable String id) {
+	public ResponseEntity<RecipeResponse> getOne(@PathVariable Long id) {
 		
 		Recipe recipe = recipeService.findOneById(id, true, true);
 		return ResponseEntity.status(HttpStatus.OK).body(recipeService.mapToGetOne(recipe));
@@ -60,7 +60,7 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit-image/{id}")
-	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable String id, @RequestParam MultipartFile image) {
+	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @RequestParam MultipartFile image) {
 		
 		Account account = accountService.getAccountByJWT(authorization, false);
 		
@@ -80,7 +80,7 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit/{id}")
-	public ResponseEntity<Recipe> edit(@RequestHeader("Authorization") String authorization, @PathVariable String id, @Valid @RequestBody RecipeForm form) {
+	public ResponseEntity<Recipe> edit(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @Valid @RequestBody RecipeForm form) {
 		
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.update(account, id, form);
@@ -89,7 +89,7 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/delete/{id}")
-	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
+	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
 			
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
@@ -111,7 +111,7 @@ public class RecipeRestController {
 	}
 	
 	@GetMapping("/api/recipe/author/{id}")
-	public ResponseEntity<Boolean> isAuthor(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
+	public ResponseEntity<Boolean> isAuthor(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
 		
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);

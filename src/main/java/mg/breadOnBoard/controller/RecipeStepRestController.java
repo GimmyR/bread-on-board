@@ -30,7 +30,7 @@ public class RecipeStepRestController {
 	private RecipeService recipeService;
 	
 	@GetMapping("/api/recipe-steps/{recipeId}")
-	public ResponseEntity<Iterable<RecipeStepResponse>> getAllByRecipeId(@PathVariable String recipeId) {
+	public ResponseEntity<Iterable<RecipeStepResponse>> getAllByRecipeId(@PathVariable Long recipeId) {
 		
 		Iterable<RecipeStep> steps = recipeStepService.findAllByRecipeId(recipeId);
 		return ResponseEntity.status(HttpStatus.OK).body(recipeStepService.mapAllToGetAllByRecipeId(steps));

@@ -23,16 +23,15 @@ import mg.breadOnBoard.repository.RecipeStepRepository;
 public class RecipeStepService {
 	
 	private RecipeStepRepository recipeStepRepository;
-	private SequenceService sequenceService;
 	private EntityManager entityManager;
 	
-	public Iterable<RecipeStep> findAllByRecipeId(String recipeId) {
+	public Iterable<RecipeStep> findAllByRecipeId(Long recipeId) {
 		
 		return recipeStepRepository.findAllByRecipeId(recipeId, Sort.by(Sort.Direction.ASC, "order"));
 		
 	}
 	
-	public RecipeStep findOneById(String id) {
+	public RecipeStep findOneById(Long id) {
 		
 		Optional<RecipeStep> opt = recipeStepRepository.findById(id);
 		
@@ -45,12 +44,7 @@ public class RecipeStepService {
 	
 	public RecipeStep save(RecipeStep step) {
 		
-		if(step.getId() == null) {
-			
-			String id = sequenceService.generateRecipeStepID();
-			step.editId(id);
-			
-		} return recipeStepRepository.save(step);
+		return recipeStepRepository.save(step);
 		
 	}
 	
@@ -98,7 +92,7 @@ public class RecipeStepService {
 		
 	}
 	
-	public void deleteAllByRecipeId(String recipeId) {
+	public void deleteAllByRecipeId(Long recipeId) {
 		
 		entityManager.createQuery("DELETE FROM RecipeStep r WHERE r.recipe.id = :id")
 				        .setParameter("id", recipeId)

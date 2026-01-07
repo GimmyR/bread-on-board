@@ -1,6 +1,6 @@
 package mg.breadOnBoard.dto;
 
 public record AccountResponse(
-		String id,
+		Long id,
 		String username
 ) {}
