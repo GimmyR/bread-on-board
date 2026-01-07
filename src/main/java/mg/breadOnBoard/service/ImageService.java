@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,11 @@ public class ImageService {
 		
 		String oldImage = recipe.getImage();
 		recipe.editImage(image);
-		Files.copy(image.getInputStream(), uploadsDir.resolve(image.getOriginalFilename()));
+		Files.copy(
+				image.getInputStream(), 
+				uploadsDir.resolve(image.getOriginalFilename()),
+				StandardCopyOption.REPLACE_EXISTING
+		);
 		
 		if(oldImage != null)
 			this.delete(oldImage);
