@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import mg.breadOnBoard.exception.FileIsEmptyException;
 import mg.breadOnBoard.model.Recipe;
 
 @Service
@@ -16,7 +17,7 @@ public class ImageService {
 	
 	private final Path uploadsDir = Paths.get("images");
 	
-	public Recipe upload(Recipe recipe, MultipartFile image) throws IOException {
+	public Recipe upload(Recipe recipe, MultipartFile image) throws IOException, FileIsEmptyException {
 		
 		String oldImage = recipe.getImage();
 		recipe.editImage(image);

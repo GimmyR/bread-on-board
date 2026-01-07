@@ -51,7 +51,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findOneById(Long id, boolean withAccount, boolean withSteps) {
+	public Recipe findOneById(Long id, boolean withAccount, boolean withSteps) throws NotFoundException {
 		
 		Optional<Recipe> opt = null;
 		
@@ -67,7 +67,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe findByIdAndAccountId(Long id, Long accountId, boolean withAccount, boolean withSteps) {
+	public Recipe findByIdAndAccountId(Long id, Long accountId, boolean withAccount, boolean withSteps) throws NotFoundException {
 		
 		Recipe recipe = null;
 		
@@ -90,7 +90,7 @@ public class RecipeService {
 		
 	}
 	
-	public Recipe update(Account account, Long recipeId, RecipeForm form) {
+	public Recipe update(Account account, Long recipeId, RecipeForm form) throws NotFoundException {
 		
 		Recipe recipe = this.findByIdAndAccountId(recipeId, account.getId(), false, false);
 		recipe.editTitle(form.title());

@@ -59,7 +59,7 @@ public class Recipe {
 		
 	}
 	
-	public void editImage(MultipartFile image) {
+	public void editImage(MultipartFile image) throws FileIsEmptyException {
 		
 		if(image.isEmpty())
 			throw new FileIsEmptyException();

@@ -31,7 +31,7 @@ public class RecipeStepService {
 		
 	}
 	
-	public RecipeStep findOneById(Long id) {
+	public RecipeStep findOneById(Long id) throws NotFoundException {
 		
 		Optional<RecipeStep> opt = recipeStepRepository.findById(id);
 		

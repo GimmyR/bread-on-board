@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.AllArgsConstructor;
 import mg.breadOnBoard.domain.BobView;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.ImageService;
 import mg.breadOnBoard.service.RecipeService;
@@ -40,7 +41,7 @@ public class AdminController {
 	}
 	
 	@PostMapping("/recipe/remove/{id}")
-	public String removeRecipe(Model model, @PathVariable Long id) throws IOException {
+	public String removeRecipe(Model model, @PathVariable Long id) throws IOException, NotFoundException {
 			
 		Recipe recipe = recipeService.findOneById(id, false, false);
 		recipeStepService.deleteAllByRecipeId(recipe.getId());

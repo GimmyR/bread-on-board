@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import mg.breadOnBoard.dto.RecipeResponse;
 import mg.breadOnBoard.dto.RecipeStepResponse;
 import mg.breadOnBoard.dto.StepsForm;
+import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Account;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.model.RecipeStep;
@@ -38,7 +39,7 @@ public class RecipeStepRestController {
 	}
 	
 	@PostMapping("/api/recipe-steps/save")
-	public ResponseEntity<RecipeResponse> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) {
+	public ResponseEntity<RecipeResponse> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) throws NotFoundException {
 			
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(form.recipeId(), account.getId(), true, true);

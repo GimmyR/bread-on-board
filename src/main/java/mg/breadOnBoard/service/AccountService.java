@@ -51,7 +51,7 @@ public class AccountService {
 		
 	}
 	
-	public Account findById(Long id) {
+	public Account findById(Long id) throws NotFoundException {
 		
 		Optional<Account> opt = accountRepository.findById(id);
 		
