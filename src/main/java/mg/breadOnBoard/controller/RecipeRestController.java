@@ -24,14 +24,12 @@ import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.AccountService;
 import mg.breadOnBoard.service.ImageService;
 import mg.breadOnBoard.service.RecipeService;
-import mg.breadOnBoard.service.RecipeStepService;
 
 @RestController
 @AllArgsConstructor
 public class RecipeRestController {
 	
 	private RecipeService recipeService;
-	private RecipeStepService recipeStepService;
 	private ImageService imageService;
 	private AccountService accountService;
 	
@@ -86,8 +84,8 @@ public class RecipeRestController {
 	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable Long id) throws IOException, NotFoundException {
 			
 		Account account = accountService.getAccountByJWT(authorization, false);
-		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
-		recipeStepService.deleteAllByRecipe(recipe);
+		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, true);
+		recipe.getRecipeSteps().clear();
 		recipeService.delete(recipe);
 		imageService.delete(recipe.getImage());
 		return ResponseEntity.status(HttpStatus.CREATED).body("Recipe is successfully removed");

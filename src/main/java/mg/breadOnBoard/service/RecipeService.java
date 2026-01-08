@@ -74,6 +74,9 @@ public class RecipeService {
 		if(withAccount && withSteps)
 			recipe = recipeRepository.findOneByIdAndAccountIdWithAccountAndWithSteps(id, accountId);
 		
+		else if(!withAccount && withSteps)
+			recipe = recipeRepository.findOneByIdAndAccountIdWithSteps(id, accountId);
+		
 		else recipe = recipeRepository.findOneByIdAndAccountId(id, accountId);
 		
 		if(recipe == null)

@@ -14,14 +14,12 @@ import mg.breadOnBoard.exception.NotFoundException;
 import mg.breadOnBoard.model.Recipe;
 import mg.breadOnBoard.service.ImageService;
 import mg.breadOnBoard.service.RecipeService;
-import mg.breadOnBoard.service.RecipeStepService;
 
 @Controller
 @AllArgsConstructor
 public class AdminController {
 	
 	private RecipeService recipeService;
-	private RecipeStepService recipeStepService;
 	private ImageService imageService;
 	
 	@GetMapping("/sign-in")
@@ -43,8 +41,8 @@ public class AdminController {
 	@PostMapping("/recipe/remove/{id}")
 	public String removeRecipe(Model model, @PathVariable Long id) throws IOException, NotFoundException {
 			
-		Recipe recipe = recipeService.findOneById(id, false, false);
-		recipeStepService.deleteAllByRecipe(recipe);
+		Recipe recipe = recipeService.findOneById(id, false, true);
+		recipe.getRecipeSteps().clear();
 		recipeService.delete(recipe);
 		imageService.delete(recipe.getImage());
 		return "redirect:/";

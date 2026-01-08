@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +47,7 @@ public class RecipeStepService {
 	
 	public void saveAll(Recipe recipe, Iterable<RecipeStepForm> steps) {
 		
-		this.deleteAllByRecipe(recipe);
+		recipe.getRecipeSteps().clear();
 		
 		int order = 1;
 		
@@ -65,15 +64,6 @@ public class RecipeStepService {
 	public void delete(RecipeStep step) {
 		
 		recipeStepRepository.delete(step);
-		
-	}
-	
-	public void deleteAllByRecipe(Recipe recipe) {
-		
-		List<RecipeStep> steps = recipe.getRecipeSteps();
-		
-		if(steps != null)
-			recipe.getRecipeSteps().forEach(step -> this.delete(step));
 		
 	}
 	
