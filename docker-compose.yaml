@@ -1,0 +1,21 @@
+services:
+  db:
+    image: gvenzl/oracle-free:latest
+    container_name: oracle-bob
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
+    volumes:
+      - oracle-bob:/opt/oracle/oradata   # data persistence
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+      start_interval: 5s
+
+volumes:
+  oracle-bob:
