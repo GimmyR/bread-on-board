@@ -1,21 +1,60 @@
 services:
-  db:
-    image: gvenzl/oracle-free:latest
-    container_name: oracle-bob
-    ports:
-      - "1521:1521"
-    environment:
-      ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
-    volumes:
-      - oracle-bob:/opt/oracle/oradata   # data persistence
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "healthcheck.sh"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-      start_interval: 5s
 
+    db:
+        image: gvenzl/oracle-free:latest
+        container_name: oracle-bob
+        ports:
+            - "1521:1521"
+        environment:
+            ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
+        volumes:
+            - oracle-bob:/opt/oracle/oradata   # data persistence
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "healthcheck.sh"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 5s
+            start_interval: 5s
+
+    backend:
+        build: ./backend/
+        container_name: spring-bob
+        depends_on:
+            db:
+                condition: service_healthy
+        ports:
+            - "8080:8080"
+        environment:
+            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1 # oracle-free service
+            DB_USER: SYSTEM
+            DB_PASSWORD: pwd123
+            ADMIN_USERNAME: admin
+            ADMIN_MAIL_ADDRESS: admin@example.com
+            ADMIN_PASSWORD: pwd456
+            PASSWORD_STRENGTH: 12
+            JWT_SECRET: ${JWT_SECRET}
+            FRONTEND_URL: http://frontend:3000
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 5s
+            start_interval: 5s
+
+    frontend:
+        build: ./frontend/
+        container_name: next-bob
+        depends_on:
+            backend:
+                condition: service_healthy
+        ports:
+            - "3000:3000"
+        environment:
+            JWT_SECRET: ${JWT_SECRET}
+            NEXT_PUBLIC_API_URL: http://backend:8080
+    
 volumes:
-  oracle-bob:
+    oracle-bob:
