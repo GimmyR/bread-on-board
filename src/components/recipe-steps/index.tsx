@@ -1,9 +1,10 @@
 import { RecipeStepResponse } from "@/interfaces/recipe-step";
+import RecipeStep from "../recipe-step";
 
 export default function RecipeSteps({ steps } : { steps: RecipeStepResponse[] }) {
     return (
-        <ol className="pt-3">
-            {steps.map(step => <li key={step.id} className="mb-4">{step.text}</li>)}
-        </ol>
+        <div className="d-flex flex-column col-12 mt-3">
+            {steps.map((step, index) => <RecipeStep key={step.id} index={index} step={step}/>)}
+        </div>
     );
 }
