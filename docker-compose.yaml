@@ -27,8 +27,9 @@ services:
         ports:
             - "8080:8080"
         volumes:
-            - ./backend/images:/app/images
+            - ./backend/images:/opt/app/images
         environment:
+            SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
             DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1
             DB_USER: ${DB_USER}
             DB_PASSWORD: ${DB_PASSWORD}
