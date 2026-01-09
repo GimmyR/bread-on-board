@@ -76,7 +76,7 @@ public class SecurityConfig {
 		httpSecurity
 				.formLogin(login -> login.loginPage("/sign-in").defaultSuccessUrl("/").permitAll())
 				.logout(logout -> logout.logoutSuccessUrl("/sign-in?logout").permitAll())
-				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/webjars/**", "/css/**", "/images/**").permitAll())
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/webjars/**", "/css/**", "/images/**", "/img/**").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/actuator/**").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/**").hasRole("Admin"))
 				.userDetailsService(userDetailsService);
