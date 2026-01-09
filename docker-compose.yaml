@@ -6,12 +6,12 @@ services:
         ports:
             - "1521:1521"
         environment:
-            ORACLE_PASSWORD: pwd123   # password for SYS, SYSTEM
+            ORACLE_PASSWORD: ${DB_PASSWORD} # SYSTEM for username
         volumes:
-            - oracle-bob:/opt/oracle/oradata   # data persistence
+            - oracle-bob:/opt/oracle/oradata
         restart: unless-stopped
         healthcheck:
-            test: ["CMD", "healthcheck.sh"]
+            test: ["CMD-SHELL", "healthcheck.sh"]
             interval: 10s
             timeout: 5s
             retries: 10
@@ -27,13 +27,13 @@ services:
         ports:
             - "8080:8080"
         environment:
-            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1 # oracle-free service
-            DB_USER: SYSTEM
-            DB_PASSWORD: pwd123
-            ADMIN_USERNAME: admin
-            ADMIN_MAIL_ADDRESS: admin@example.com
-            ADMIN_PASSWORD: pwd456
-            PASSWORD_STRENGTH: 12
+            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+            ADMIN_USERNAME: ${ADMIN_USERNAME}
+            ADMIN_MAIL_ADDRESS: ${ADMIN_MAIL_ADDRESS}
+            ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+            PASSWORD_STRENGTH: ${PASSWORD_STRENGTH}
             JWT_SECRET: ${JWT_SECRET}
             FRONTEND_URL: http://frontend:3000
         healthcheck:
