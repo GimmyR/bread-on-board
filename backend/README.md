@@ -67,4 +67,5 @@ To run the application, execute the following command :
 java -jar target/*.jar
 ```
 
-You can access the application in your browser at `http://localhost:8080`.
+The API documentation is available at http://localhost:8080/docs.
+To sign in as an administrator for the backend, open http://localhost:8080 in your browser.
