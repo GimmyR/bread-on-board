@@ -1,8 +1,8 @@
 "use client";
 
+import searchRecipe from "@/actions/search-recipe";
 import "./style.css";
 import { RecipeResponse } from "@/interfaces/recipe";
-import bobFetch from "@/lib/bob-fetch";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -13,17 +13,16 @@ export default function SearchModal() {
     const [error, setError] = useState<string | undefined>();
     const router = useRouter();
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
-        searchRecipe(event.target.value);
+        const response = await searchRecipe(event.target.value);
+
+        if(response.status == 200)
+            setRecipes([...response.data]);
+        else setError(response.data);
     };
 
-    const searchRecipe = async (toSearch: string) => {
-        const response = await bobFetch(`/api/recipes?s=${encodeURIComponent(toSearch)}`);
-        response.status == 200 ? setRecipes([...response.data]) : setError(response.data);
-    };
-
-    const goToRecipe = (recipeId: string) => {
+    const goToRecipe = (recipeId: number) => {
         router.push(`/recipe/${recipeId}`);
     };
 
@@ -36,6 +35,7 @@ export default function SearchModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body px-4" style={{ height: 750 }}>
+                        {error && <h1 className="text-danger text-center fs-3">{error}</h1>}
                         {recipes.map((recipe, index) =>
                             <div key={recipe.id} className={`d-flex flex-row align-items-center border-bottom${index == 0 ? " border-top" : ""}`}>
                                 <Link href="#" onClick={() => goToRecipe(recipe.id)} className=" col-12 fs-6 text-truncate my-auto py-2 text-decoration-none" data-bs-dismiss="modal">
