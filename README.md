@@ -56,3 +56,7 @@ docker compose up --build
 You can access the frontend application in your browser at http://localhost:3000.
 The API documentation is available at http://localhost:8080/docs.
 To sign in as an administrator for the backend, open http://localhost:8080 in your browser.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
