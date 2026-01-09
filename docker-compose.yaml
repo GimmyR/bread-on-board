@@ -1,0 +1,64 @@
+services:
+
+    db:
+        image: gvenzl/oracle-free:latest
+        container_name: oracle-bob
+        ports:
+            - "1521:1521"
+        environment:
+            ORACLE_PASSWORD: ${DB_PASSWORD} # SYSTEM for username
+        volumes:
+            - oracle-bob:/opt/oracle/oradata
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "healthcheck.sh"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 5s
+            start_interval: 5s
+
+    backend:
+        build: ./backend/
+        container_name: spring-bob
+        depends_on:
+            db:
+                condition: service_healthy
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./backend/images:/opt/app/images
+        environment:
+            SPRING_PROFILES_ACTIVE: dev
+            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+            ADMIN_USERNAME: ${ADMIN_USERNAME}
+            ADMIN_MAIL_ADDRESS: ${ADMIN_MAIL_ADDRESS}
+            ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+            PASSWORD_STRENGTH: ${PASSWORD_STRENGTH}
+            JWT_SECRET: ${JWT_SECRET}
+            FRONTEND_URL: ${FRONTEND_URL}
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 5s
+            start_interval: 5s
+
+    frontend:
+        build: ./frontend/
+        container_name: next-bob
+        depends_on:
+            backend:
+                condition: service_healthy
+        ports:
+            - "3000:3000"
+        environment:
+            JWT_SECRET: ${JWT_SECRET}
+            NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080
+            NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}
+    
+volumes:
+    oracle-bob:

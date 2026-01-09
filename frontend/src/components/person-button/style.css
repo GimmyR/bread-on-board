@@ -1,0 +1,7 @@
+.button-sign {
+    background-color: black;
+}
+
+.button-sign:hover {
+    background-color: #212121;
+}

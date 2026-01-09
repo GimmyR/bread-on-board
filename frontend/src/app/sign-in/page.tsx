@@ -1,0 +1,17 @@
+import { Metadata } from "next";
+import SignInForm from "@/components/sign-in-form";
+
+export const metadata: Metadata = {
+    title: "Sign in - Bread on Board",
+    description: "Sign in page for Bread on Board web application.",
+};
+
+export default function SignInPage() {
+    return (
+        <div className="container pt-5">
+            <div className="d-flex flex-row justify-content-center">
+                <SignInForm/>
+            </div>
+        </div>
+    );
+}

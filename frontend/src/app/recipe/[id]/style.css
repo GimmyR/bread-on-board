@@ -1,0 +1,8 @@
+.text-light-green {
+    color: #56C49A;
+}
+
+ol li::marker {
+    color: #00935B;
+    font-weight: bold;
+}
