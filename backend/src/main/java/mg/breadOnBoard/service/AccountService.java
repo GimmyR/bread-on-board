@@ -11,9 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
@@ -35,7 +33,6 @@ public class AccountService {
 	
 	private AccountRepository accountRepository;
 	private JwtEncoder jwtEncoder;
-	private JwtDecoder jwtDecoder;
 	private final PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
 	
@@ -145,23 +142,14 @@ public class AccountService {
 		
 	}
 	
-	public Account getAccountByJWT(String authorization, boolean withRecipes) {
+	public Account getAccountByAuthentication(Authentication auth, boolean withRecipes) {
 		
-		String username = getUsernameByJWT(authorization);
+		String username = auth.getName();
 		
 		if(withRecipes)
 			return accountRepository.findOneByUsernameWithRecipes(username);
 		
 		return accountRepository.findOneByUsername(username);
-		
-	}
-	
-	private String getUsernameByJWT(String authorization) {
-		
-		String jwt = authorization.substring(7);
-		Jwt token = jwtDecoder.decode(jwt);
-		
-		return token.getSubject();
 		
 	}
 

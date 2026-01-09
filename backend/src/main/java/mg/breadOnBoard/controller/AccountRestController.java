@@ -2,10 +2,10 @@ package mg.breadOnBoard.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -31,9 +31,9 @@ public class AccountRestController {
 	}
 	
 	@GetMapping("/api/username")
-	public ResponseEntity<String> getUsername(@RequestHeader("Authorization") String authorization) {
+	public ResponseEntity<String> getUsername(Authentication auth) {
 		
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		return ResponseEntity.status(HttpStatus.OK).body(account.getUsername());
 		
 	}

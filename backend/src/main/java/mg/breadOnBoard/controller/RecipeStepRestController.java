@@ -2,11 +2,11 @@ package mg.breadOnBoard.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -39,9 +39,9 @@ public class RecipeStepRestController {
 	}
 	
 	@PostMapping("/api/recipe-steps/save")
-	public ResponseEntity<RecipeResponse> saveAll(@RequestHeader("Authorization") String authorization, @Valid @RequestBody StepsForm form) throws NotFoundException {
+	public ResponseEntity<RecipeResponse> saveAll(Authentication auth, @Valid @RequestBody StepsForm form) throws NotFoundException {
 			
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(form.recipeId(), account.getId(), true, true);
 		recipeStepService.saveAll(recipe, form.steps());
 		RecipeResponse res = recipeService.mapToGetOne(recipe);

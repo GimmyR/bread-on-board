@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,9 +51,9 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/create")
-	public ResponseEntity<RecipeResponse> create(@RequestHeader("Authorization") String authorization, @Valid @RequestBody RecipeForm form) {
+	public ResponseEntity<RecipeResponse> create(Authentication auth, @Valid @RequestBody RecipeForm form) {
 		
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.create(account, form);
 		RecipeResponse res = recipeService.mapToGetOne(recipe);
 		return ResponseEntity.status(HttpStatus.CREATED).body(res);
@@ -61,9 +61,9 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit-image/{id}")
-	public ResponseEntity<String> editImage(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @RequestParam MultipartFile image) throws IOException, NotFoundException, FileIsEmptyException {
+	public ResponseEntity<String> editImage(Authentication auth, @PathVariable Long id, @RequestParam MultipartFile image) throws IOException, NotFoundException, FileIsEmptyException {
 		
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
 		recipe = imageService.upload(recipe, image);
 		recipe = recipeService.save(recipe);
@@ -72,9 +72,9 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit/{id}")
-	public ResponseEntity<RecipeResponse> edit(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @Valid @RequestBody RecipeForm form) throws NotFoundException {
+	public ResponseEntity<RecipeResponse> edit(Authentication auth, @PathVariable Long id, @Valid @RequestBody RecipeForm form) throws NotFoundException {
 		
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.update(account, id, form);
 		RecipeResponse res = recipeService.mapToGetOne(recipe);
 		return ResponseEntity.status(HttpStatus.CREATED).body(res);
@@ -82,9 +82,9 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/delete/{id}")
-	public ResponseEntity<String> delete(@RequestHeader("Authorization") String authorization, @PathVariable Long id) throws IOException, NotFoundException {
+	public ResponseEntity<String> delete(Authentication auth, @PathVariable Long id) throws IOException, NotFoundException {
 			
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, true);
 		recipe.getRecipeSteps().clear();
 		recipeService.delete(recipe);
@@ -94,18 +94,18 @@ public class RecipeRestController {
 	}
 	
 	@GetMapping("/api/recipe/author/{id}")
-	public ResponseEntity<Boolean> isAuthor(@RequestHeader("Authorization") String authorization, @PathVariable Long id) throws NotFoundException {
+	public ResponseEntity<Boolean> isAuthor(Authentication auth, @PathVariable Long id) throws NotFoundException {
 		
-		Account account = accountService.getAccountByJWT(authorization, false);
+		Account account = accountService.getAccountByAuthentication(auth, false);
 		Recipe recipe = recipeService.findByIdAndAccountId(id, account.getId(), false, false);
 		return ResponseEntity.status(HttpStatus.OK).body((recipe != null) && (recipe.getId().equals(id)));
 		
 	}
 	
 	@GetMapping("/api/my-recipes")
-	public ResponseEntity<Iterable<RecipeResponse>> getMyRecipes(@RequestHeader("Authorization") String authorization) {
+	public ResponseEntity<Iterable<RecipeResponse>> getMyRecipes(Authentication auth) {
 		
-		Account account = accountService.getAccountByJWT(authorization, true);
+		Account account = accountService.getAccountByAuthentication(auth, true);
 		Iterable<Recipe> recipes = account.getRecipes();
 		Iterable<RecipeResponse> res = recipeService.mapAllToGetAll(recipes);
 		return ResponseEntity.ok(res);
