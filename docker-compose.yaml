@@ -11,7 +11,7 @@ services:
             - oracle-bob:/opt/oracle/oradata
         restart: unless-stopped
         healthcheck:
-            test: ["CMD-SHELL", "healthcheck.sh"]
+            test: ["CMD", "healthcheck.sh"]
             interval: 10s
             timeout: 5s
             retries: 10
