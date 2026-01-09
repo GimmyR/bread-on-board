@@ -1,31 +1,70 @@
-# Spring Boot Starter
+# Bread on Board (Backend)
 
-Look at the [Spring Boot Documentation](https://docs.spring.io/spring-boot/index.html) to learn more
+This is the backend and API for the entire Bread on Board project, built with Spring Boot.
+You can build and run this application on its own, but the following configurations are required.
 
 ## Prerequisites
 
-* **Java** version **21.0.5**
-* **Maven** version **3.9.9**
-* **Oracle XE** version **21c 1.0.2**
+Before building or running the application, make sure you have the following installed :
 
-## Configuration
+* **Java** 21.0.9
+* **Maven** 3.9.9
+* **Oracle Database**
 
-Set up server port, log level, database and more configs in `application.properties`.
+## Environment variables
 
-Find database schema in `schema.sql`.
+First, define the environment variables for the database :
 
-## Build project
+* **DB_URL**: The JDBC URL to connect to your Oracle Database (e.g., `jdbc:oracle:thin:@localhost:1521/XEPDB1`)
+* **DB_USER**: The username to connect to your Oracle Database (e.g., `SYSTEM`)
+* **DB_PASSWORD**: The password for your Oracle Database
+
+Second, the application generates an administrator account in your database and requires the following environment variables :
+
+* **ADMIN_USERNAME**: The administrator's username (e.g., `admin`)
+* **ADMIN_MAIL_ADDRESS**: The administrator's email address (e.g., `admin@example.com`)
+* **ADMIN_PASSWORD**: The administrator's password
+
+Third, the application hashes passwords according to a defined password strength :
+
+* **PASSWORD_STRENGTH**: Recommended value is **12**
+
+Fourth, the application generates JSON Web Tokens using a secret key :
+
+* **JWT_SECRET**: 64 bytes (required for `HS512` algorithm)
+
+Finally, if you want another application to communicate with the API :
+
+* **FRONTEND_URL**: Defines the allowed CORS origin
+
+If you want to use a `.env` file, place it in the project's root directory.
+
+## Installation
+
+Open a terminal in the project's root directory and navigate to the backend folder :
+
+```bash
+cd backend/
+```
+
+Then, run **Maven**'s `clean` and `install` commands :
 
 ```bash
 mvn clean install
 ```
 
-## Deployment
-
-Move `bread-on-board-0.0.1-SNAPSHOT.jar` in **target** directory to deployment directory and run this command in this directory :
+To skip tests during the build, use :
 
 ```bash
-java -jar bread-on-board-0.0.1-SNAPSHOT.jar
+mvn clean install -DskipTests
 ```
 
-Find server on `http://localhost:[server-port]`.
+## Launch the application
+
+To run the application, execute the following command :
+
+```bash
+java -jar target/*.jar
+```
+
+You can access the application in your browser at `http://localhost:8080`.
