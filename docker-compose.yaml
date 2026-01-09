@@ -26,6 +26,8 @@ services:
                 condition: service_healthy
         ports:
             - "8080:8080"
+        volumes:
+            - ./backend/images:/app/images
         environment:
             DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1
             DB_USER: ${DB_USER}
@@ -35,7 +37,7 @@ services:
             ADMIN_PASSWORD: ${ADMIN_PASSWORD}
             PASSWORD_STRENGTH: ${PASSWORD_STRENGTH}
             JWT_SECRET: ${JWT_SECRET}
-            FRONTEND_URL: http://frontend:3000
+            FRONTEND_URL: ${FRONTEND_URL}
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
             interval: 10s
@@ -54,7 +56,8 @@ services:
             - "3000:3000"
         environment:
             JWT_SECRET: ${JWT_SECRET}
-            NEXT_PUBLIC_API_URL: http://backend:8080
+            NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080
+            NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}
     
 volumes:
     oracle-bob:

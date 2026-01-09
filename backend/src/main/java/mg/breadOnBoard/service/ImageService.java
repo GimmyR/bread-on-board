@@ -19,6 +19,9 @@ public class ImageService {
 	
 	public Recipe upload(Recipe recipe, MultipartFile image) throws IOException, FileIsEmptyException {
 		
+		if(!Files.exists(uploadsDir) || !Files.isDirectory(uploadsDir))
+			Files.createDirectories(uploadsDir);
+		
 		String oldImage = recipe.getImage();
 		recipe.editImage(image);
 		Files.copy(
@@ -27,7 +30,7 @@ public class ImageService {
 				StandardCopyOption.REPLACE_EXISTING
 		);
 		
-		if(oldImage != null)
+		if(oldImage != null && !oldImage.equals(recipe.getImage()))
 			this.delete(oldImage);
 		
 		return recipe;

@@ -72,11 +72,12 @@ public class RecipeRestController {
 	}
 	
 	@PostMapping("/api/recipe/edit/{id}")
-	public ResponseEntity<Recipe> edit(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @Valid @RequestBody RecipeForm form) throws NotFoundException {
+	public ResponseEntity<RecipeResponse> edit(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @Valid @RequestBody RecipeForm form) throws NotFoundException {
 		
 		Account account = accountService.getAccountByJWT(authorization, false);
 		Recipe recipe = recipeService.update(account, id, form);
-		return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
+		RecipeResponse res = recipeService.mapToGetOne(recipe);
+		return ResponseEntity.status(HttpStatus.CREATED).body(res);
 		
 	}
 	
