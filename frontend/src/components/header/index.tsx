@@ -13,7 +13,9 @@ export default async function Header() {
         <>
             <nav className="navbar fixed-top navbar-expand bg-success">
                 <div className="container-fluid">
-                    <Link className="navbar-brand text-light fw-bold" href="/">Bread on Board</Link>
+                    <Link className="d-flex flex-row align-items-center navbar-brand text-light fw-bold" href="/">
+                        <img src="/logo.png" className="me-2" style={{ height: 30 }}/>Bread on Board
+                    </Link>
                     <button className="btn btn-outline-light col-lg-4 text-start btn-search d-none d-lg-block" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i className="bi bi-search me-1"/> Search
                     </button>
