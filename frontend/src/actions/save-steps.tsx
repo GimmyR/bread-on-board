@@ -3,8 +3,8 @@
 import { RecipeStepForm } from "@/interfaces/recipe-step";
 import bobFetch from "@/lib/bob-fetch";
 
-export async function saveSteps(authorization: string, recipeId: string, steps: RecipeStepForm[]) {
-    const responseSteps = await bobFetch("/api/recipe-steps/save", {
+export async function saveSteps(authorization: string, recipeId: number, steps: RecipeStepForm[]) {
+    const responseSteps = await bobFetch("/api/recipe-steps/save", true, {
 
         method: "POST",
         headers: {

@@ -15,7 +15,7 @@ export default async function YourRecipesPage() {
     if(!token)
         redirect("/sign-in");
 
-    const response = await bobFetch("/api/my-recipes", { 
+    const response = await bobFetch("/api/my-recipes", true, { 
         headers: { 
             "Authorization": `Bearer ${token}` 
         } 

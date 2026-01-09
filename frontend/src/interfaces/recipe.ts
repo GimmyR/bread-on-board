@@ -2,7 +2,7 @@ import { AccountResponse } from "./account";
 import { RecipeStepResponse } from "./recipe-step";
 
 export interface RecipeResponse {
-    id: string,
+    id: number,
     title: string,
     ingredients: string,
     image: string,

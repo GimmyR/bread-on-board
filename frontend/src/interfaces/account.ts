@@ -1,4 +1,4 @@
 export interface AccountResponse {
-    id: string,
+    id: number,
     username: string
 }

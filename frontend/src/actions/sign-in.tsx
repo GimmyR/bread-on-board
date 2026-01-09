@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function signIn(formData: FormData) {
-    const response = await bobFetch("/api/sign-in", {
+    const response = await bobFetch("/api/sign-in", true, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

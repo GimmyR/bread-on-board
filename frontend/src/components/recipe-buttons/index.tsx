@@ -1,7 +1,7 @@
 import removeRecipe from "@/actions/remove-recipe";
 
 type Props = {
-    id: string | undefined,
+    id: number | undefined,
     isLoading: boolean,
     handleError: (response: { status: number, data: any }) => void
 };

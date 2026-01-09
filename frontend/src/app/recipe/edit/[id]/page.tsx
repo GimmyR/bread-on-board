@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 type Props = {
-    params: Promise<{ id: string }>
+    params: Promise<{ id: number }>
 };
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default async function EditRecipePage({ params } : Props) {
     if(!author)
         redirect("/sign-in");
 
-    const responseRecipe = await bobFetch(`/api/recipes/${id}`);
+    const responseRecipe = await bobFetch(`/api/recipes/${id}`, true);
     const recipe: RecipeResponse | undefined = responseRecipe.status == 200 ? responseRecipe.data : undefined;
 
     return (

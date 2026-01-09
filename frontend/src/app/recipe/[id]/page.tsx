@@ -10,7 +10,7 @@ import RecipeSteps from "@/components/recipe-steps";
 import isAuthor from "@/actions/is-author";
 
 type Props = {
-    params: Promise<{ id: string }>
+    params: Promise<{ id: number }>
 };
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default async function RecipePage({ params } : Props) {
     const { id } = await params;
-    const responseRecipe = await bobFetch(`/api/recipes/${id}`);
+    const responseRecipe = await bobFetch(`/api/recipes/${id}`, true);
     const recipe: RecipeResponse | null = responseRecipe.status == 200 ? responseRecipe.data : null;
     const author: boolean =  recipe ? await isAuthor(recipe.id) : false;
 

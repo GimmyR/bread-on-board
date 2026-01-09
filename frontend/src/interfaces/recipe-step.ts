@@ -1,10 +1,10 @@
 export interface RecipeStepForm {
-    id?: string
+    id?: number
     key?: number,
     text: string
 }
 
 export interface RecipeStepResponse {
-    id: string,
+    id: number,
     text: string
 }

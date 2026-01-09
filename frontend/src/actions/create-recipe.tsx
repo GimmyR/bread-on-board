@@ -13,7 +13,7 @@ export default async function createRecipe(formData: FormData, steps: RecipeStep
         ingredients: formData.get("ingredients") as string
     };
 
-    const response = await bobFetch("/api/recipe/create", { 
+    const response = await bobFetch("/api/recipe/create", true, { 
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -1,7 +1,7 @@
-import { API_URL } from "@/lib/api";
+import { CLIENT_SIDE_TO_API, SERVER_SIDE_TO_API } from "@/lib/api";
 
-export default async function bobFetch(url: string, options?: RequestInit) {
-    const response = await fetch(API_URL + url, options);
+export default async function bobFetch(url: string, isServer: boolean, options?: RequestInit) {
+    const response = await fetch((isServer ? SERVER_SIDE_TO_API : CLIENT_SIDE_TO_API) + url, options);
     const clone = response.clone();
 
     try {

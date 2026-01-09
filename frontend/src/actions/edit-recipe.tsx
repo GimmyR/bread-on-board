@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import editImage from "@/actions/edit-image";
 import { saveSteps } from "./save-steps";
 
-export default async function editRecipe(recipeId: string, formData: FormData, steps: RecipeStepForm[]) {
+export default async function editRecipe(recipeId: number, formData: FormData, steps: RecipeStepForm[]) {
     const cookieStore = await cookies();
     const authorization = cookieStore.get("token") ? `Bearer ${cookieStore.get("token")?.value}` : "";
     const form = {
@@ -14,7 +14,7 @@ export default async function editRecipe(recipeId: string, formData: FormData, s
         ingredients: formData.get("ingredients") as string
     };
 
-    const response = await bobFetch(`/api/recipe/edit/${recipeId}`, { 
+    const response = await bobFetch(`/api/recipe/edit/${recipeId}`, true, { 
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export default async function editRecipe(recipeId: string, formData: FormData, s
 
     if(response.status == 201) {
         
-        if(!formData.get("image"))
+        if(formData.get("image"))
             return await editImage(formData, response, authorization, steps);
 
         else return await saveSteps(authorization, recipeId, steps);

@@ -3,13 +3,13 @@
 import bobFetch from "@/lib/bob-fetch";
 import { getToken } from "./get-token";
 
-export default async function isAuthor(recipeId: string) {
+export default async function isAuthor(recipeId: number) {
     const token = await getToken();
 
     if(!token)
         return false;
 
-    const response = await bobFetch(`/api/recipe/author/${recipeId}`, {
+    const response = await bobFetch(`/api/recipe/author/${recipeId}`, true, {
         headers: {
             "Authorization": `Bearer ${token}`
         }

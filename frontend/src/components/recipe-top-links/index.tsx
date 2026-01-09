@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function RecipeTopLinks({ recipeId, isAuthor } : { recipeId: string, isAuthor: boolean }) {
+export default function RecipeTopLinks({ recipeId, isAuthor } : { recipeId: number, isAuthor: boolean }) {
     return (
         <>
             {isAuthor ?
