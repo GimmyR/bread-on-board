@@ -30,7 +30,7 @@ services:
             - ./backend/images:/opt/app/images
         environment:
             SPRING_PROFILES_ACTIVE: dev
-            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1
+            DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1 # Spring speaks with Oracle only from his container to Oracle container
             DB_USER: ${DB_USER}
             DB_PASSWORD: ${DB_PASSWORD}
             ADMIN_USERNAME: ${ADMIN_USERNAME}
@@ -57,8 +57,8 @@ services:
             - "3000:3000"
         environment:
             JWT_SECRET: ${JWT_SECRET}
-            NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080
-            NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}
+            NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080                 # Next contained in a container need to speak with Spring like this
+            NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}   # Mostly for browser that retrieve resources like images
     
 volumes:
     oracle-bob:
