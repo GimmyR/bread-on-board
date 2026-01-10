@@ -52,7 +52,7 @@ If you want to use a `.env` file, place it in the project's root directory.
 Open a terminal in the project's root directory and run the following command :
 
 ```bash
-docker compose up --build
+docker compose --profile dev up --build
 ```
 
 You can access the frontend application in your browser at http://localhost:3000.
