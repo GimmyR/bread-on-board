@@ -44,6 +44,7 @@ backend/nbproject/
 backend/.nb-gradle/
 backend/build/
 backend/dist/
+backend/images/
 
 ### ENV ###
 .env
