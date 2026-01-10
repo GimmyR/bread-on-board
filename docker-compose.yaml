@@ -10,6 +10,8 @@ services:
         volumes:
             - oracle-bob:/opt/oracle/oradata
         restart: unless-stopped
+        profiles:
+            - dev
         healthcheck:
             test: ["CMD", "healthcheck.sh"]
             interval: 10s
@@ -19,8 +21,9 @@ services:
             start_interval: 5s
 
     backend:
-        build: ./backend/
-        container_name: spring-bob
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
         depends_on:
             db:
                 condition: service_healthy
@@ -39,6 +42,8 @@ services:
             PASSWORD_STRENGTH: ${PASSWORD_STRENGTH}
             JWT_SECRET: ${JWT_SECRET}
             FRONTEND_URL: ${FRONTEND_URL}
+        profiles:
+            - dev
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
             interval: 10s
@@ -46,6 +51,21 @@ services:
             retries: 10
             start_period: 5s
             start_interval: 5s
+
+    backend-ci:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.ci
+        environment:
+            SPRING_PROFILES_ACTIVE: test
+            ADMIN_USERNAME: ${ADMIN_USERNAME}
+            ADMIN_MAIL_ADDRESS: ${ADMIN_MAIL_ADDRESS}
+            ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+            PASSWORD_STRENGTH: ${PASSWORD_STRENGTH}
+            JWT_SECRET: ${JWT_SECRET}
+            FRONTEND_URL: ${FRONTEND_URL}
+        profiles:
+            - ci
 
     frontend:
         build: ./frontend/
@@ -59,6 +79,8 @@ services:
             JWT_SECRET: ${JWT_SECRET}
             NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080                 # Next contained in a container need to speak with Spring like this
             NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}   # Mostly for browser that retrieve resources like images
-    
+        profiles:
+            - dev
+
 volumes:
     oracle-bob:
