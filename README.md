@@ -1,5 +1,7 @@
 # Bread on Board
 
+[![Bread on Board - CI Pipeline](https://github.com/GimmyR/bread-on-board/actions/workflows/ci.yaml/badge.svg)](https://github.com/GimmyR/bread-on-board/actions/workflows/ci.yaml)
+
 Bread on Board is a web application that lets users create, manage, and explore cooking recipes.
 
 It is built with:
