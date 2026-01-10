@@ -1,7 +1,7 @@
 ### See https://help.github.com/articles/ignoring-files/ for more about ignoring files. ###
 
 ### dependencies ###
-frontend/node_modules
+frontend/node_modules/
 frontend/.pnp
 frontend/.pnp.*
 frontend/.yarn/*
@@ -40,9 +40,11 @@ frontend/next-env.d.ts
 ### Target in Spring ###
 backend/HELP.md
 backend/target/
+backend/**/target/
+backend/*.jar
+backend/**/*.jar
+backend/.metadata/
 backend/!.mvn/wrapper/maven-wrapper.jar
-backend/!**/src/main/**/target/
-backend/!**/src/test/**/target/
 
 ### STS ###
 backend/.apt_generated
@@ -54,24 +56,18 @@ backend/.springBeans
 backend/.sts4-cache
 backend/.metadata
 
-### IntelliJ IDEA ###
-backend/.idea
-backend/*.iws
+### Other IDEs ###
+backend/.idea/
 backend/*.iml
+backend/*.iws
 backend/*.ipr
-
-### NetBeans ###
-backend/nbproject/private/
-backend/nbbuild/
-backend/dist/
-backend/nbdist/
+backend/nbproject/
 backend/.nb-gradle/
 backend/build/
-backend/!**/src/main/**/build/
-backend/!**/src/test/**/build/
+backend/dist/
 
 ### VS Code ###
-backend/.vscode/
+frontend/.vscode/
 
 ### IMAGES DIRECTORY ###
 backend/images/
