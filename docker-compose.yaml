@@ -29,6 +29,7 @@ services:
         volumes:
             - ./backend/images:/opt/app/images
         environment:
+            SPRING_PROFILES_ACTIVE: dev
             DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1 # Spring speaks with Oracle only from his container to Oracle container
             DB_USER: ${DB_USER}
             DB_PASSWORD: ${DB_PASSWORD}
