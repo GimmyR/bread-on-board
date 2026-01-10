@@ -11,6 +11,11 @@ It is built with:
 - **Oracle Database** for data persistence  
 - **Docker** for containerized deployment
 
+![Home page](./screenshots/home.png)
+
+![Recipe page](./screenshots/one-recipe.png)
+
+
 ## Prerequisites
 
 Before building or running the application, make sure you have the following installed :
