@@ -25,16 +25,16 @@ export default async function RecipePage({ params } : Props) {
     const author: boolean =  recipe ? await isAuthor(recipe.id) : false;
 
     return (
-        <div className="container-fluid container-lg bg-light min-vh-100 pt-5">
+        <div className="container-fluid container-lg bg-light min-vh-100 py-5">
             {recipe != null ?
-            <div className="pt-5">
+            <div className="py-5">
                 <div className="d-flex flex-column align-items-center px-3">
                     <div className="d-flex flex-row align-items-center">
-                        <h1 className="text-success mb-1">{recipe.title}</h1>
+                        <h1 className="text-success text-center mb-1">{recipe.title}</h1>
                         <RecipeTopLinks recipeId={recipe.id} isAuthor={author}/>
                     </div>
                     <h3 className="fs-5 mb-5">
-                        par <Link href={`/account/${recipe.account.id}`} className="text-light-green text-decoration-none">{recipe.account.username}</Link>
+                        by <Link href="#" className="text-light-green text-decoration-none">{recipe.account.username}</Link>
                     </h3>
                     <img src={imageURL(recipe.image)} alt={recipe.title} className="img-fluid col-12 col-lg-4 mb-5"/>
                     <div className="d-flex flex-column col-12 col-lg-8 mt-2 mb-3">
