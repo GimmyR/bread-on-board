@@ -1,4 +1,4 @@
-name: Bread on Board - CI Pipeline
+name: Bread on Board
 
 on:
   push:
