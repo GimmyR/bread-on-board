@@ -57,8 +57,7 @@ jobs:
           echo "Oracle is healthy !"
 
       - name: Run backend tests
-        run: |
-          docker compose -e SPRING_PROFILES_ACTIVE=test run --rm -v $PWD/backend:/app -w /app maven:3.9-eclipse-temurin-21 mvn test
+        run: docker compose run --rm backend ./mvnw test
 
       - name: Run frontend tests
         run: docker compose exec -T frontend npm test -- --ci --runInBand || true
