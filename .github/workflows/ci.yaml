@@ -8,7 +8,6 @@ on:
 
 jobs:
   build-and-test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +17,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Create .env for Docker Compose
+      - name: Create .env
         run: |
-          echo "ORACLE_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" > .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}" >> .env
           echo "ADMIN_MAIL_ADDRESS=${{ secrets.ADMIN_MAIL_ADDRESS }}" >> .env
@@ -32,35 +30,17 @@ jobs:
           echo "NEXT_PUBLIC_SERVER_SIDE_TO_API=${{ secrets.NEXT_PUBLIC_SERVER_SIDE_TO_API }}" >> .env
           echo "NEXT_PUBLIC_CLIENT_SIDE_TO_API=${{ secrets.NEXT_PUBLIC_CLIENT_SIDE_TO_API }}" >> .env
 
-      - name: Build Docker containers
-        run: docker compose build
+      # -------------------------
+      # 1) TEST PHASE (TestContainers)
+      # -------------------------
+      - name: Build CI images
+        run: docker compose --profile ci build
 
-      - name: Start Docker Compose stack
-        run: docker compose up -d
+      - name: Run backend tests (TestContainers)
+        run: docker compose --profile ci run --rm backend-ci
 
-      - name: Wait for Oracle to be healthy
-        run: |
-          echo "Waiting for Oracle to become healthy..."
-          container=$(docker compose ps -q db)
-          TIMEOUT=300
-          START=$(date +%s)
-          until [ "$(docker inspect --format='{{.State.Health.Status}}' $container)" = "healthy" ]; do
-            echo "Oracle not ready yet..."
-            sleep 5
-            NOW=$(date +%s)
-            if [ $((NOW-START)) -gt $TIMEOUT ]; then
-              echo "Oracle failed to become healthy in time"
-              docker compose logs db
-              exit 1
-            fi
-          done
-          echo "Oracle is healthy !"
-
-      - name: Run backend tests
-        run: docker compose run --rm backend ./mvnw test
-
-      - name: Run frontend tests
-        run: docker compose exec -T frontend npm test -- --ci --runInBand || true
-
-      - name: Shutdown Docker Compose stack
-        run: docker compose down --volumes --remove-orphans
+      # -------------------------
+      # 2) BUILD PHASE (dev images)
+      # -------------------------
+      - name: Build runtime images
+        run: docker compose --profile dev build
