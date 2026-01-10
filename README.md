@@ -25,30 +25,26 @@ Before building or running the application, make sure you have the following ins
 
 ## Environment variables
 
-First, define the environment variables for the database :
+```bash
+# Database (Oracle)
+DB_USER=SYSTEM
+DB_PASSWORD=your_db_password
 
-* **DB_USER**: The username to connect to your Oracle Database (e.g., `SYSTEM`)
-* **DB_PASSWORD**: The password for your Oracle Database
+# Administrator account (created at startup)
+ADMIN_USERNAME=admin
+ADMIN_MAIL_ADDRESS=admin@example.com
+ADMIN_PASSWORD=change_me
 
-Second, the application generates an administrator account in your database and requires the following environment variables :
+# Password hashing strength (bcrypt cost)
+PASSWORD_STRENGTH=12
 
-* **ADMIN_USERNAME**: The administrator's username (e.g., `admin`)
-* **ADMIN_MAIL_ADDRESS**: The administrator's email address (e.g., `admin@example.com`)
-* **ADMIN_PASSWORD**: The administrator's password
+# JWT (HS512 requires at least 64 bytes)
+JWT_SECRET=your_very_long_random_secret_key_here_at_least_64_bytes
 
-Third, the application hashes passwords according to a defined password strength :
-
-* **PASSWORD_STRENGTH**: Recommended value is **12**
-
-Fourth, the application encodes and decodes JSON Web Tokens using a secret key :
-
-* **JWT_SECRET**: 64 bytes (required for `HS512` algorithm)
-
-Finally, if you want your frontend application to communicate with the API :
-
-* **FRONTEND_URL**: Defines the allowed CORS origin for cross-origin requests
-* **NEXT_PUBLIC_SERVER_SIDE_TO_API**: Defines the API url used by the server-side of the Next.js application
-* **NEXT_PUBLIC_CLIENT_SIDE_TO_API**: Defines the API url used by the client-side of the Next.js application
+# Frontend / CORS / API URLs
+FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_CLIENT_SIDE_TO_API=http://localhost:8080
+```
 
 If you want to use a `.env` file, place it in the project's root directory.
 
