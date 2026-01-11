@@ -23,7 +23,7 @@ Second, to allow the application to communicate with an API:
 
 If you want to use a `.env` file, place it in the project's root directory.
 
-## Launch the application
+## Dependencies
 
 Open a terminal in the project's root directory and navigate to the frontend folder :
 
@@ -31,7 +31,15 @@ Open a terminal in the project's root directory and navigate to the frontend fol
 cd frontend/
 ```
 
-Then, start the application by running:
+Then, install the dependencies by running :
+
+```bash
+npm install
+```
+
+## Launch the application
+
+Always in frontend folder, start the application by running:
 
 ```bash
 npm run dev
