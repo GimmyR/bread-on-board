@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,36 +45,19 @@ public class AccountRestControllerIntegrationTest {
 	@Test
 	public void testLogIn() throws Exception {
 		
-		this.login();
-		
-	}
-	
-	private MvcResult login() throws JsonProcessingException, Exception {
-		
-		return mockMvc.perform(post("/api/sign-in")
+		mockMvc.perform(post("/api/sign-in")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(new AccountForm("adawong", "pwdAda"))))
-				.andExpect(status().isOk())
-				.andReturn();
+				.andExpect(status().isOk());
 		
 	}
 	
 	@Test
+	@WithMockUser(username = "adawong")
 	public void testGetUsername() throws Exception {
 		
-		MvcResult result = this.login();
-		this.getUsername(result);
-		
-	}
-	
-	private MvcResult getUsername(MvcResult result) throws Exception {
-		
-		String token = result.getResponse().getContentAsString();
-		
-		return mockMvc.perform(get("/api/username")
-				.header("Authorization", "Bearer " + token))
-				.andExpect(status().isOk())
-				.andReturn();
+		mockMvc.perform(get("/api/username"))
+				.andExpect(status().isOk());
 		
 	}
 
