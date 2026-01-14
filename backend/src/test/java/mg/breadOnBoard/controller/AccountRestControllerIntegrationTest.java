@@ -35,24 +35,16 @@ public class AccountRestControllerIntegrationTest {
 	@Test
 	public void testSignUp() throws JsonProcessingException, Exception {
 		
-		this.signUp();
-		
-	}
-	
-	private MvcResult signUp() throws JsonProcessingException, Exception {
-		
-		return mockMvc.perform(post("/api/sign-up")
+		mockMvc.perform(post("/api/sign-up")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(new SignUpForm("johndoe", "johndoe@example.com", "pwdJohn"))))
-				.andExpect(status().isCreated())
-				.andReturn();
+				.andExpect(status().isCreated());
 		
 	}
 	
 	@Test
 	public void testLogIn() throws Exception {
 		
-		this.signUp();
 		this.login();
 		
 	}
@@ -61,7 +53,7 @@ public class AccountRestControllerIntegrationTest {
 		
 		return mockMvc.perform(post("/api/sign-in")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsBytes(new AccountForm("johndoe", "pwdJohn"))))
+				.content(objectMapper.writeValueAsBytes(new AccountForm("adawong", "pwdAda"))))
 				.andExpect(status().isOk())
 				.andReturn();
 		
@@ -70,7 +62,6 @@ public class AccountRestControllerIntegrationTest {
 	@Test
 	public void testGetUsername() throws Exception {
 		
-		this.signUp();
 		MvcResult result = this.login();
 		this.getUsername(result);
 		
