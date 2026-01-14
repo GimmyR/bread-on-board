@@ -1,0 +1,1 @@
+INSERT INTO Account(id, username, mail_address, password, admin) values(ACCOUNT_SEQ.NEXTVAL, 'adawong', 'adawong@example.com', '$2a$12$UukSkD0F9zIsA8tRRiaHk.0Gh9pAlYIrR9YvwleLcvkth311y.qCa', 0);
