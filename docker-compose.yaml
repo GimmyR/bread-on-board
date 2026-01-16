@@ -11,7 +11,7 @@ services:
             - oracle-bob:/opt/oracle/oradata
         restart: unless-stopped
         profiles:
-            - dev
+            - prod
         healthcheck:
             test: ["CMD", "healthcheck.sh"]
             interval: 10s
@@ -23,7 +23,7 @@ services:
     backend:
         build:
             context: ./backend
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.prod
         depends_on:
             db:
                 condition: service_healthy
@@ -32,7 +32,6 @@ services:
         volumes:
             - ./backend/images:/opt/app/images
         environment:
-            SPRING_PROFILES_ACTIVE: dev
             DB_URL: jdbc:oracle:thin:@db:1521/FREEPDB1 # Spring speaks with Oracle only from his container to Oracle container
             DB_USER: ${DB_USER}
             DB_PASSWORD: ${DB_PASSWORD}
@@ -43,7 +42,7 @@ services:
             JWT_SECRET: ${JWT_SECRET}
             FRONTEND_URL: ${FRONTEND_URL}
         profiles:
-            - dev
+            - prod
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
             interval: 10s
@@ -57,7 +56,6 @@ services:
             context: ./backend
             dockerfile: Dockerfile.ci
         environment:
-            SPRING_PROFILES_ACTIVE: test
             ADMIN_USERNAME: ${ADMIN_USERNAME}
             ADMIN_MAIL_ADDRESS: ${ADMIN_MAIL_ADDRESS}
             ADMIN_PASSWORD: ${ADMIN_PASSWORD}
@@ -80,7 +78,7 @@ services:
             NEXT_PUBLIC_SERVER_SIDE_TO_API: http://backend:8080                 # Next contained in a container need to speak with Spring like this
             NEXT_PUBLIC_CLIENT_SIDE_TO_API: ${NEXT_PUBLIC_SERVER_SIDE_TO_API}   # Mostly for browser that retrieve resources like images
         profiles:
-            - dev
+            - prod
 
 volumes:
     oracle-bob:

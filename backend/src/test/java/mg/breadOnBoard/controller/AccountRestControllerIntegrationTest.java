@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,55 +35,29 @@ public class AccountRestControllerIntegrationTest {
 	@Test
 	public void testSignUp() throws JsonProcessingException, Exception {
 		
-		this.signUp();
-		
-	}
-	
-	private MvcResult signUp() throws JsonProcessingException, Exception {
-		
-		return mockMvc.perform(post("/api/sign-up")
+		mockMvc.perform(post("/api/sign-up")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsBytes(new SignUpForm("johndoe", "johndoe@example.com", "pwdJohn"))))
-				.andExpect(status().isCreated())
-				.andReturn();
+				.andExpect(status().isCreated());
 		
 	}
 	
 	@Test
 	public void testLogIn() throws Exception {
 		
-		this.signUp();
-		this.login();
-		
-	}
-	
-	private MvcResult login() throws JsonProcessingException, Exception {
-		
-		return mockMvc.perform(post("/api/sign-in")
+		mockMvc.perform(post("/api/sign-in")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsBytes(new AccountForm("johndoe", "pwdJohn"))))
-				.andExpect(status().isOk())
-				.andReturn();
+				.content(objectMapper.writeValueAsBytes(new AccountForm("adawong", "pwdAda"))))
+				.andExpect(status().isOk());
 		
 	}
 	
 	@Test
+	@WithMockUser(username = "adawong")
 	public void testGetUsername() throws Exception {
 		
-		this.signUp();
-		MvcResult result = this.login();
-		this.getUsername(result);
-		
-	}
-	
-	private MvcResult getUsername(MvcResult result) throws Exception {
-		
-		String token = result.getResponse().getContentAsString();
-		
-		return mockMvc.perform(get("/api/username")
-				.header("Authorization", "Bearer " + token))
-				.andExpect(status().isOk())
-				.andReturn();
+		mockMvc.perform(get("/api/username"))
+				.andExpect(status().isOk());
 		
 	}
 
