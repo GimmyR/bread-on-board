@@ -43,4 +43,4 @@ jobs:
       # 2) BUILD PHASE (dev images)
       # -------------------------
       - name: Build runtime images
-        run: docker compose --profile dev build
+        run: docker compose --profile prod build
