@@ -23,7 +23,7 @@ services:
     backend:
         build:
             context: ./backend
-            dockerfile: Dockerfile.prod
+            dockerfile: Dockerfile
         depends_on:
             db:
                 condition: service_healthy
@@ -56,6 +56,7 @@ services:
             context: ./backend
             dockerfile: Dockerfile.ci
         environment:
+            SPRING_PROFILES_ACTIVE: test
             ADMIN_USERNAME: ${ADMIN_USERNAME}
             ADMIN_MAIL_ADDRESS: ${ADMIN_MAIL_ADDRESS}
             ADMIN_PASSWORD: ${ADMIN_PASSWORD}
