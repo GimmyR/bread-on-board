@@ -48,6 +48,22 @@ NEXT_PUBLIC_CLIENT_SIDE_TO_API=http://localhost:8080
 
 If you want to use a `.env` file, place it in the project's root directory.
 
+iF you want to use **Supabase Storage S3**, you can add these environment variables in `.env` file and in `docker-compose.yaml` file :
+
+```bash
+# Supabase S3 endpoint
+SUPABASE_S3_ENDPOINT=https://<project ID>.supabase.co/storage/v1/s3
+
+# Supabase S3 access key
+SUPABASE_S3_ACCESS_KEY=your_supabase_access_key
+
+# Supabase S3 secret key
+SUPABASE_S3_SECRET_KEY=your_supabase_secret_key
+
+# Supabase S3 image URL
+NEXT_PUBLIC_IMAGE_URL=https://<project ID>.supabase.co/storage/v1/object/public/<bucket name>
+```
+
 ## Launch the application
 
 Open a terminal in the project's root directory and run the following command :
