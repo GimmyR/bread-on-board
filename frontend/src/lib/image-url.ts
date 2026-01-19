@@ -1,5 +1,5 @@
-import { CLIENT_SIDE_TO_API } from "./api";
+import { IMAGE_URL } from "./api";
 
 export default function imageURL(filename: string) {
-    return `${CLIENT_SIDE_TO_API}/images/${filename}`;
+    return `${IMAGE_URL}/${filename}`;
 }
