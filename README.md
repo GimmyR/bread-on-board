@@ -17,6 +17,7 @@ It is built with:
 - API Documentation: https://bread-on-board.onrender.com/docs
 
 > ℹ️ The backend is hosted on Render (free tier) and may experience a cold start.
+
 > The first request can take up to ~30–60 seconds.
 
 ![Home page](./screenshots/home.png)
