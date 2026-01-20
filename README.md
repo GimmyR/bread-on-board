@@ -11,6 +11,14 @@ It is built with:
 - **Oracle Database** for data persistence  
 - **Docker** for containerized deployment
 
+## Live Demo
+- Frontend: https://bread-on-board.vercel.app/
+- Backend & API: https://bread-on-board.onrender.com/
+- API Documentation: https://bread-on-board.onrender.com/docs
+
+> ℹ️ The backend is hosted on Render (free tier) and may experience a cold start.
+> The first request can take up to ~30–60 seconds.
+
 ![Home page](./screenshots/home.png)
 
 ![Recipe page](./screenshots/one-recipe.png)
